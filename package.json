@@ -1,0 +1,29 @@
+{
+  "name": "service-stunting-checkup",
+  "version": "1.0.0",
+  "description": "Service API untuk checkup stunting",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "ngrok": "ngrok http --domain=rare-gar-popular.ngrok-free.app",
+    "lint": "eslint --fix src",
+    "test": "jest",
+    "sync": "node src/db/sync.js",
+    "alter": "node src/db/alter.js",
+    "seed": "node src/db/seed.js"
+  },
+  "author": "Muh. Fachry J.K. Luid",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "scikitjs": "^1.24.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
