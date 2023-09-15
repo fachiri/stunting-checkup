@@ -1,14 +1,25 @@
 const path = require('path');
+const { existsSync } = require('fs')
 const tf = require('@tensorflow/tfjs')
 const scikitjs = require('scikitjs')
+const xlsx = require('xlsx')
+
 scikitjs.setBackend(tf)
+
+const splitData = (obj) => {
+  const n = Object.values(obj[0]).length;
+  const labels = obj.map(o => Object.values(o).pop()); 
+  const attributes = obj.map(o => Object.values(o).slice(0,n-1)) 
+  return {labels,attributes}
+}
 
 module.exports = {
   decisionTreeClassifier: async (bb, tb, age, jk) => {
     const lr = new scikitjs.DecisionTreeClassifier()
     const split = 0.3
-    const dataset = readFileDataset()
-    
+    const fileDataset = readFileDataset()
+    const dataset = splitData(fileDataset)
+
     let [xTrain, xTest, yTrain, yTest] = scikitjs.trainTestSplit(dataset.attributes, dataset.labels, split)
 
     lr.fit(xTrain, yTrain)
