@@ -10,7 +10,6 @@ const middlewares = require('./middlewares')
 const routeWeb = require('./routes/web.route')
 const routeApi = require('./routes/api.route')
 
-
 const app = express()
 
 app.use(morgan('dev'))

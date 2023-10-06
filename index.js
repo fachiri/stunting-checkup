@@ -1,6 +1,6 @@
 const app = require('./src/app');
-const { port } = require('./src/config/keys')
+const keys = require('./src/config/keys')
 
-app.listen(port, () => {
-  console.log(`Listening: http://localhost:${port}`);
+app.listen(keys.port, () => {
+  console.log(`Listening: http://localhost:${keys.port}`);
 });
