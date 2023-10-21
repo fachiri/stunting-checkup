@@ -11,13 +11,11 @@
     "test": "jest",
     "sync": "node src/db/sync.js",
     "alter": "node src/db/alter.js",
-    "seed": "node src/db/seed.js",
-    "watch:tailwind": "npx tailwindcss -i ./public/css/main.css -o ./public/css/tailwind.css --watch"
+    "seed": "node src/db/seed.js"
   },
   "author": "Muh. Fachry J.K. Luid",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.6",
     "@tensorflow/tfjs-node": "^4.11.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -33,9 +31,6 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.15",
-    "nodemon": "^3.0.1",
-    "postcss": "^8.4.29",
-    "tailwindcss": "^3.3.3"
+    "nodemon": "^3.0.1"
   }
 }
