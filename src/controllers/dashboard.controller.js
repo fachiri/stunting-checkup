@@ -4,15 +4,11 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-  res.render('./pages/dashboard', { title: 'Dashboard', layout: 'layouts/dashboard' })
+  res.render('./pages/dashboard', { title: 'Dasbor', layout: 'layouts/dashboard' })
 })
 
-router.get('/checkup', async (req, res) => {
-  res.render('./pages/dashboard/checkup', { title: 'Pemeriksaan', layout: 'layouts/dashboard' })
-})
-
-router.get('/report', async (req, res) => {
-  res.render('./pages/dashboard/report', { title: 'Laporan', layout: 'layouts/dashboard' })
+router.get('/pengaturan', async (req, res) => {
+  res.render('./pages/dashboard/pengaturan', { title: 'Pengaturan', layout: 'layouts/dashboard' })
 })
 
 module.exports = router

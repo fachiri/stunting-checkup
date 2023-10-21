@@ -6,11 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/css/auth.css">
   </head>
 
   <body>
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <%- body %>
+    <script src="/js/initTheme.js"></script>
+    <div id="auth">
+      <div class="row h-100">
+        <div class="col-lg-5 col-12">
+          <div id="auth-left">
+            <div class="auth-logo">
+              <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo"></a>
+            </div>
+            <%- body %>
+          </div>
+        </div>
+        <div class="col-lg-7 d-none d-lg-block">
+          <div id="auth-right">
+            
+          </div>
+        </div>
+      </div>
+
     </div>
   </body>
 
