@@ -5,12 +5,21 @@ const helmet = require('helmet')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 const expressLayouts = require('express-ejs-layouts')
+const session = require('express-session');
+const flash = require('express-flash');
 
 const middlewares = require('./middlewares')
 const routeWeb = require('./routes/web.route')
 const routeApi = require('./routes/api.route')
 
 const app = express()
+
+app.use(session({
+  secret: 'stunting-checkup-jaya-jaya-jaya',
+  resave: false,
+  saveUninitialized: true
+}));
+app.use(flash());
 
 app.use(morgan('dev'))
 app.use(helmet())

@@ -16,5 +16,6 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 db.Checkup = require("./checkup.model.js")(sequelize, Sequelize)
+db.Balita = require("./balita.model.js")(sequelize, Sequelize)
 
 module.exports = db
