@@ -3,9 +3,89 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
-          Master Imunisasi
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Tambah Informasi
+          </button>
+          <table class="table table-striped" id="table1">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Acara</th>
+                <th>Tanggal</th>
+                <th>Waktu Mulai</th>
+                <th>Waktu Berakhir</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Graiden</td>
+                <td>vehicula.aliquet@semconsequat.co.uk</td>
+                <td>076 4820 8838</td>
+                <td>Offenburg</td>
+                <td>
+                  <span class="badge bg-success">Active</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
+  <div class="modal modal-lg fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Informasi Imunisasi</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/dasbor/master/imunisasi" method="post">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Nama Acara</label>
+              <input required type="text" name="nama_acara" placeholder="Masukan Nama Acara" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">Tanggal</label>
+              <input required name="tanggal" type="date" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">Waktu Mulai</label>
+              <input name="waktu_mulai" required type="time" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">Waktu Berakhir</label>
+              <input name="waktu_berakhir" required type="time" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">Deskripsi</label>
+              <textarea required name="deskripsi" placeholder="Deskripsi Acara" class="form-control" cols="30" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="">Lokasi</label>
+              <textarea required name="lokasi" class="form-control" placeholder="Lokasi Acara" cols="30" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="">Pembuat Acara</label>
+              <input type="text" name="acara" placeholder="Masukan Pembuat Acara" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">Status</label>
+              <select required name="status" id="" class="form-control">
+                <option value="">Plih Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Aktif">Aktif</option>
+                <option value="Selesai">Selesai</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit"  class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
