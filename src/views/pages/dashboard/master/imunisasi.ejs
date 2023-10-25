@@ -15,19 +15,36 @@
                 <th>Waktu Mulai</th>
                 <th>Waktu Berakhir</th>
                 <th>Status</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Graiden</td>
-                <td>vehicula.aliquet@semconsequat.co.uk</td>
-                <td>076 4820 8838</td>
-                <td>Offenburg</td>
-                <td>
-                  <span class="badge bg-success">Active</span>
-                </td>
-              </tr>
+              <% informasi.forEach(function(item,index){ %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td><%= item.nama_acara %></td>
+                  <td><%= item.tanggal %></td>
+                  <td><%= item.waktu_mulai %></td>
+                  <td><%= item.waktu_selesai %></td>
+                  <td>
+                    <% if(item.status == 'Pending'){ %>
+                    <span class="badge bg-warning">Pending</span>
+                    <% } %>
+                    <% if(item.status == 'Aktif'){ %>
+                    <span class="badge bg-success">Berjalan</span>
+                    <% } %>
+                    <% if(item.status == 'Selesai'){ %>
+                    <span class="badge bg-danger">Selesai</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <form action="/dasbor/master/imunisasi/hapus/<%= item.uuid %>" method="POST">
+                      <a href="/dasbor/master/imunisasi/<%= item.uuid %>" class="btn btn-warning">Edit</a>
+                      <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }); %>
             </tbody>
           </table>
         </div>

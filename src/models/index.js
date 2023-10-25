@@ -17,5 +17,4 @@ db.sequelize = sequelize
 
 db.Checkup = require("./checkup.model.js")(sequelize, Sequelize)
 db.Informasi = require("./informasi.model.js")(sequelize, Sequelize)
-
 module.exports = db

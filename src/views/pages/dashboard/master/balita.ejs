@@ -3,7 +3,100 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
-          Master Balita
+          <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahBalitaModal">
+            Tambah Data
+          </button>
+          <div class="modal fade" id="tambahBalitaModal" tabindex="-1" aria-labelledby="tambahBalitaModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="tambahBalitaModalLabel">Tambah Balita</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST">
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="nama" class="form-label">Nama Lengkap</label>
+                      <input type="text" class="form-control" name="nama" id="nama">
+                    </div>
+                    <div class="mb-3">
+                      <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                      <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" aria-label="Jenis Kelamin">
+                        <option value="" hidden>-Pilih-</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                      </select>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label for="berat_badan" class="form-label">Berat Badan</label>
+                        <input type="number" class="form-control" name="berat_badan" id="berat_badan">
+                      </div>
+                      <div class="col-4">
+                        <label for="tinggi_badan" class="form-label">Tinggi Badan</label>
+                        <input type="number" class="form-control" name="tinggi_badan" id="tinggi_badan">
+                      </div>
+                      <div class="col-4">
+                        <label for="umur" class="form-label">Umur</label>
+                        <input type="number" class="form-control" name="umur" id="umur">
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="status_imunisasi" class="form-label">Status Imunisasi</label>
+                      <select class="form-select" name="status_imunisasi" id="status_imunisasi" aria-label="Status Imunisasi">
+                        <option value="" hidden>-Pilih-</option>
+                        <option value="Lengkap">Lengkap</option>
+                        <option value="Belum lengkap">Belum lengkap</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <table class="table table-striped" id="tabel-balita">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>Berat Badan</th>
+                <th>Tinggi Badan</th>
+                <th>Umur</th>
+                <th>Status Imunisasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.balita.forEach(e=> { %>
+                <tr>
+                  <td>
+                    <%= e.nama %>
+                  </td>
+                  <td>
+                    <%= e.jenis_kelamin %>
+                  </td>
+                  <td>
+                    <%= e.berat_badan %>
+                  </td>
+                  <td>
+                    <%= e.tinggi_badan %>
+                  </td>
+                  <td>
+                    <%= e.umur %>
+                  </td>
+                  <td>
+                    <span class="badge <%= e.status_imunisasi == 'Lengkap' ? 'bg-success' : 'bg-danger' %>">
+                      <%= e.status_imunisasi %>
+                    </span>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
