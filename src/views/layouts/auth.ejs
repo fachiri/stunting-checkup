@@ -15,20 +15,17 @@
       <div class="row h-100">
         <div class="col-lg-5 col-12">
           <div id="auth-left">
-            <div class="auth-logo">
-              <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo"></a>
-            </div>
+            <%- include('../partials/alert') %>
             <%- body %>
           </div>
         </div>
         <div class="col-lg-7 d-none d-lg-block">
-          <div id="auth-right">
-            
-          </div>
+          <div id="auth-right"></div>
         </div>
       </div>
-
     </div>
+    <%- include('../partials/scripts') %>
+
   </body>
 
 </html>

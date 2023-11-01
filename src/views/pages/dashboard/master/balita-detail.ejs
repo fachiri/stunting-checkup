@@ -1,0 +1,98 @@
+<div class="page-content">
+  <section class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body px-4 py-4-5">
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="/dasbor/master/balita" class="btn btn-primary mb-4">
+              Kembali
+            </a>
+          <div>
+            <button type="button" class="btn btn-info mb-4" data-bs-toggle="modal" data-bs-target="#editBalitaModal">
+              Edit
+            </button>
+            <a href="/dasbor/master/balita/<%= data.balita.uuid %>/delete" class="btn btn-danger mb-4">
+              Hapus
+            </a>
+          </div>
+          </div>
+          <div class="modal fade" id="editBalitaModal" tabindex="-1" aria-labelledby="editBalitaModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="editBalitaModalLabel">Edit Balita</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/dasbor/master/balita/<%= data.balita.uuid %>/update" method="POST">
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="nama" class="form-label">Nama Lengkap</label>
+                      <input type="text" class="form-control" name="nama" id="nama" value="<%= data.balita.nama %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                      <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" aria-label="Jenis Kelamin">
+                        <option value="Laki-laki" <%= data.balita.jenis_kelamin == 'Laki-laki' ? 'selected' : null %>>Laki-laki</option>
+                        <option value="Perempuan" <%= data.balita.jenis_kelamin == 'Perempuan' ? 'selected' : null %>>Perempuan</option>
+                      </select>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label for="berat_badan" class="form-label">Berat Badan</label>
+                        <input type="number" class="form-control" name="berat_badan" id="berat_badan" value="<%= data.balita.berat_badan %>">
+                      </div>
+                      <div class="col-4">
+                        <label for="tinggi_badan" class="form-label">Tinggi Badan</label>
+                        <input type="number" class="form-control" name="tinggi_badan" id="tinggi_badan" value="<%= data.balita.tinggi_badan %>">
+                      </div>
+                      <div class="col-4">
+                        <label for="umur" class="form-label">Umur</label>
+                        <input type="number" class="form-control" name="umur" id="umur" value="<%= data.balita.umur %>">
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="status_imunisasi" class="form-label">Status Imunisasi</label>
+                      <select class="form-select" name="status_imunisasi" id="status_imunisasi" aria-label="Status Imunisasi">
+                        <option value="Lengkap" <%= data.balita.status_imunisasi == 'Lengkap' ? 'selected' : null %>>Lengkap</option>
+                        <option value="Belum lengkap" <%= data.balita.status_imunisasi == 'Belum lengkap' ? 'selected' : null %>>Belum lengkap</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3 pb-3 border-bottom border-2">
+            <div class="col-4 fw-bold">Nama</div>
+            <div class="col-8"><%= data.balita.nama %></div>
+          </div>
+          <div class="row mb-3 pb-3 border-bottom border-2">
+            <div class="col-4 fw-bold">Jenis Kelamin</div>
+            <div class="col-8"><%= data.balita.jenis_kelamin %></div>
+          </div>
+          <div class="row mb-3 pb-3 border-bottom border-2">
+            <div class="col-4 fw-bold">Berat Badan</div>
+            <div class="col-8"><%= data.balita.berat_badan %></div>
+          </div>
+          <div class="row mb-3 pb-3 border-bottom border-2">
+            <div class="col-4 fw-bold">Tinggi Badan</div>
+            <div class="col-8"><%= data.balita.tinggi_badan %></div>
+          </div>
+          <div class="row mb-3 pb-3 border-bottom border-2">
+            <div class="col-4 fw-bold">Umur</div>
+            <div class="col-8"><%= data.balita.umur %></div>
+          </div>
+          <div class="row mb-3 pb-3">
+            <div class="col-4 fw-bold">Status Imunisasi</div>
+            <div class="col-8"><%= data.balita.status_imunisasi %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

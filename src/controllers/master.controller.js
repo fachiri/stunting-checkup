@@ -1,51 +1,11 @@
+const { validateStoreBalita, validateUpdateBalita } = require('../middlewares/validation');
 const db = require('../models')
 const express = require('express')
 
 const router = express.Router()
 
 router.get('/balita', async (req, res) => {
-  const dataBalita = [
-    {
-      nama: "Anya",
-      jenis_kelamin: "Perempuan",
-      berat_badan: 8,
-      tinggi_badan: 70,
-      status_imunisasi: "Lengkap",
-      umur: 12
-    },
-    {
-      nama: "Bima",
-      jenis_kelamin: "Laki-laki",
-      berat_badan: 9,
-      tinggi_badan: 72,
-      status_imunisasi: "Belum lengkap",
-      umur: 14
-    },
-    {
-      nama: "Citra",
-      jenis_kelamin: "Perempuan",
-      berat_badan: 7,
-      tinggi_badan: 68,
-      status_imunisasi: "Lengkap",
-      umur: 10
-    },
-    {
-      nama: "Damar",
-      jenis_kelamin: "Laki-laki",
-      berat_badan: 8,
-      tinggi_badan: 71,
-      status_imunisasi: "Belum lengkap",
-      umur: 13
-    },
-    {
-      nama: "Eva",
-      jenis_kelamin: "Perempuan",
-      berat_badan: 8,
-      tinggi_badan: 69,
-      status_imunisasi: "Lengkap",
-      umur: 11
-    },
-  ];
+  const dataBalita = await db.Balita.findAll();
 
   const data = {
     balita: dataBalita
@@ -56,18 +16,86 @@ router.get('/balita', async (req, res) => {
     layout: 'layouts/dashboard',
     successMessages: req.flash('success'),
     errorMessages: req.flash('error'),
+    oldData: req.flash('form'),
     data
   })
 })
 
-router.post('/balita', async (req, res) => {
+router.get('/balita/:uuid', async (req, res) => {
+  const dataBalita = await db.Balita.findOne({
+    where: {
+      uuid: req.params.uuid
+    }
+  });
+
+  const data = {
+    balita: dataBalita
+  }
+
+  res.render('./pages/dashboard/master/balita-detail', {
+    title: 'Detail Balita',
+    layout: 'layouts/dashboard',
+    successMessages: req.flash('success'),
+    errorMessages: req.flash('error'),
+    oldData: req.flash('form'),
+    data
+  })
+})
+
+router.post('/balita', validateStoreBalita, async (req, res) => {
   try {
     const data = await db.Balita.create(req.body)
+
     req.flash('success', 'Data balita berhasil disimpan.');
     res.redirect(`/dasbor/master/balita/${data.uuid}`)
   } catch (error) {
+    req.flash('error', error.message);
+    res.redirect(`/dasbor/master/balita`)
+  }
+})
+
+router.post('/balita/:uuid/update', validateUpdateBalita, async (req, res) => {
+  try {
+    const data = await db.Balita.findOne({
+      where: {
+        uuid: req.params.uuid
+      }
+    });
+
+    if (!data) {
+      throw new Error('Data tidak ditemukan')
+    }
+
+    data.update(req.body)
+
+    req.flash('success', 'Data balita berhasil diedit.');
+    res.redirect(`/dasbor/master/balita/${data.uuid}`)
+  } catch (error) {
     console.log(error)
-    req.flash(error.message, 'Terjadi kesalahan saat menyimpan data.');
+    req.flash('error', error.message);
+    res.redirect(`/dasbor/master/balita`)
+  }
+})
+
+router.get('/balita/:uuid/delete', async (req, res) => {
+  try {
+    const data = await db.Balita.findOne({
+      where: {
+        uuid: req.params.uuid
+      }
+    });
+
+    if (!data) {
+      throw new Error('Data tidak ditemukan')
+    }
+
+    data.destroy()
+
+    req.flash('success', 'Data balita berhasil dihapus.');
+    res.redirect(`/dasbor/master/balita`)
+  } catch (error) {
+    console.log(error)
+    req.flash('error', error.message);
     res.redirect(`/dasbor/master/balita`)
   }
 })
