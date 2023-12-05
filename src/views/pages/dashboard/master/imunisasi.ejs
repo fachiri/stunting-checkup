@@ -3,10 +3,68 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Tambah Informasi
+          <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Tambah Data
           </button>
-          <table class="table table-striped" id="table1">
+          <div class="modal modal-lg fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Informasi Imunisasi</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/dasbor/master/imunisasi" method="post">
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="">Nama Acara</label>
+                      <input required type="text" name="nama_acara" placeholder="Masukan Nama Acara"
+                        class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Tanggal</label>
+                      <input required name="tanggal" type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Waktu Mulai</label>
+                      <input name="waktu_mulai" required type="time" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Waktu Berakhir</label>
+                      <input name="waktu_berakhir" required type="time" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Deskripsi</label>
+                      <textarea required name="deskripsi" placeholder="Deskripsi Acara" class="form-control" cols="30"
+                        rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Lokasi</label>
+                      <textarea required name="lokasi" class="form-control" placeholder="Lokasi Acara" cols="30"
+                        rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Pembuat Acara</label>
+                      <input type="text" name="acara" placeholder="Masukan Pembuat Acara" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Status</label>
+                      <select required name="status" id="" class="form-control">
+                        <option value="">Plih Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Aktif">Aktif</option>
+                        <option value="Selesai">Selesai</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <table class="table table-striped" id="tabel-balita">
             <thead>
               <tr>
                 <th>No</th>
@@ -21,88 +79,48 @@
             <tbody>
               <% informasi.forEach(function(item,index){ %>
                 <tr>
-                  <td><%= index + 1 %></td>
-                  <td><%= item.nama_acara %></td>
-                  <td><%= item.tanggal %></td>
-                  <td><%= item.waktu_mulai %></td>
-                  <td><%= item.waktu_selesai %></td>
                   <td>
-                    <% if(item.status == 'Pending'){ %>
-                    <span class="badge bg-warning">Pending</span>
-                    <% } %>
-                    <% if(item.status == 'Aktif'){ %>
-                    <span class="badge bg-success">Berjalan</span>
-                    <% } %>
-                    <% if(item.status == 'Selesai'){ %>
-                    <span class="badge bg-danger">Selesai</span>
-                    <% } %>
+                    <%= index + 1 %>
                   </td>
                   <td>
+                    <%= item.nama_acara %>
+                  </td>
+                  <td>
+                    <%= item.tanggal %>
+                  </td>
+                  <td>
+                    <%= item.waktu_mulai %>
+                  </td>
+                  <td>
+                    <%= item.waktu_selesai %>
+                  </td>
+                  <td>
+                    <% if(item.status=='Pending' ){ %>
+                      <span class="badge bg-warning">Pending</span>
+                      <% } %>
+                        <% if(item.status=='Aktif' ){ %>
+                          <span class="badge bg-success">Berjalan</span>
+                          <% } %>
+                            <% if(item.status=='Selesai' ){ %>
+                              <span class="badge bg-danger">Selesai</span>
+                              <% } %>
+                  </td>
+                  <td class="d-flex">
+                    <a href="/dasbor/master/imunisasi/<%= item.uuid %>" class="badge bg-primary me-1">
+                      <i class="bi bi-pencil-square"></i>
+                    </a>
                     <form action="/dasbor/master/imunisasi/hapus/<%= item.uuid %>" method="POST">
-                      <a href="/dasbor/master/imunisasi/<%= item.uuid %>" class="btn btn-warning">Edit</a>
-                      <button type="submit" class="btn btn-danger">Hapus</button>
+                      <button type="submit" class="badge bg-danger border-0">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
                     </form>
                   </td>
                 </tr>
-              <% }); %>
+                <% }); %>
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </section>
-  <div class="modal modal-lg fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Informasi Imunisasi</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="/dasbor/master/imunisasi" method="post">
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="">Nama Acara</label>
-              <input required type="text" name="nama_acara" placeholder="Masukan Nama Acara" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="">Tanggal</label>
-              <input required name="tanggal" type="date" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="">Waktu Mulai</label>
-              <input name="waktu_mulai" required type="time" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="">Waktu Berakhir</label>
-              <input name="waktu_berakhir" required type="time" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="">Deskripsi</label>
-              <textarea required name="deskripsi" placeholder="Deskripsi Acara" class="form-control" cols="30" rows="10"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="">Lokasi</label>
-              <textarea required name="lokasi" class="form-control" placeholder="Lokasi Acara" cols="30" rows="10"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="">Pembuat Acara</label>
-              <input type="text" name="acara" placeholder="Masukan Pembuat Acara" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="">Status</label>
-              <select required name="status" id="" class="form-control">
-                <option value="">Plih Status</option>
-                <option value="Pending">Pending</option>
-                <option value="Aktif">Aktif</option>
-                <option value="Selesai">Selesai</option>
-              </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit"  class="btn btn-primary">Simpan</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 </div>

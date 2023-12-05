@@ -3,7 +3,72 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
-          Pengaturan
+          <h5 class="mb-3">Data Pribadi</h5>
+          <form method="POST" action="/dasbor/pengaturan/update-user/<%= data.user.uuid %>">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nama</label>
+              <input type="text" class="form-control" name="name" id="name" value="<%= data.user.name %>">
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" name="username" id="username" value="<%= data.user.username %>">
+            </div>
+            <div class="pt-2">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body px-4 py-4-5">
+          <h5 class="mb-3">Data Puskesmas</h5>
+          <form method="POST" action="/dasbor/pengaturan/update-user/<%= data.user.uuid %>">
+            <div class="mb-3">
+              <label for="nama_puskesmas" class="form-label">Nama Puskesmas</label>
+              <input type="text" class="form-control" name="nama_puskesmas" id="nama_puskesmas" value="<%= data.user.nama_puskesmas %>">
+            </div>
+            <div class="mb-3">
+              <label for="alamat_puskesmas" class="form-label">Alamat</label>
+              <textarea name="alamat_puskesmas" id="alamat_puskesmas" class="form-control" cols="30" rows="10"><%= data.user.alamat_puskesmas %></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="telp_puskesmas" class="form-label">No. Telp</label>
+              <input type="text" class="form-control" name="telp_puskesmas" id="telp_puskesmas" value="<%= data.user.telp_puskesmas %>">
+            </div>
+            <div class="mb-3">
+              <label for="kecamatan_puskesmas" class="form-label">Kecamatan</label>
+              <input type="text" class="form-control" name="kecamatan_puskesmas" id="kecamatan_puskesmas" value="<%= data.user.kecamatan_puskesmas %>">
+            </div>
+            <div class="pt-2">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body px-4 py-4-5">
+          <h5 class="mb-3">Ganti Password</h5>
+          <form method="POST" action="/dasbor/pengaturan/change-password/<%= data.user.uuid %>">
+            <div class="mb-3">
+              <label for="password_lama" class="form-label">Password Lama</label>
+              <input type="password" class="form-control" name="password_lama" id="password_lama">
+            </div>
+            <div class="mb-3">
+              <label for="password_baru" class="form-label">Password Baru</label>
+              <input type="password" class="form-control" name="password_baru" id="password_baru">
+            </div>
+            <div class="mb-3">
+              <label for="konfirmasi_password_baru" class="form-label">Konfirmasi Password Baru</label>
+              <input type="password" class="form-control" name="konfirmasi_password_baru" id="konfirmasi_password_baru">
+            </div>
+            <div class="pt-2">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -25,6 +25,22 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    nama_puskesmas: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    alamat_puskesmas: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    telp_puskesmas: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    kecamatan_puskesmas: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   })
 
   return User;
