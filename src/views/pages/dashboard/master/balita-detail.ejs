@@ -58,6 +58,13 @@
                         <option value="Belum lengkap" <%= data.balita.status_imunisasi == 'Belum lengkap' ? 'selected' : null %>>Belum lengkap</option>
                       </select>
                     </div>
+                    <div class="mb-3">
+                      <label for="status_checkup" class="form-label">Status Checkup</label>
+                      <select class="form-select" name="status_checkup" id="status_checkup" aria-label="Status Imunisasi">
+                        <option value="Sudah Checkup" <%= data.balita.status_checkup == 'Sudah Checkup' ? 'selected' : null %>>Sudah Checkup</option>
+                        <option value="Belum Checkup" <%= data.balita.status_checkup == 'Belum Checkup' ? 'selected' : null %>>Belum Checkup</option>
+                      </select>
+                    </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -90,6 +97,10 @@
           <div class="row mb-3 pb-3">
             <div class="col-4 fw-bold">Status Imunisasi</div>
             <div class="col-8"><%= data.balita.status_imunisasi %></div>
+          </div>
+          <div class="row mb-3 pb-3">
+            <div class="col-4 fw-bold">Status Checkup</div>
+            <div class="col-8"><%= data.balita.status_checkup %></div>
           </div>
         </div>
       </div>

@@ -37,6 +37,31 @@ router.get('/', async (req, res) => {
   })
 })
 
+router.get('/checkup', async (req, res) => {
+  let data = {}
+
+  data.checkups = await db.Checkup.findAll();
+
+  res.render('./pages/dashboard/checkup', {
+    title: 'Rekap Checkup',
+    layout: 'layouts/dashboard',
+    data,
+    successMessages: req.flash('success'),
+    errorMessages: req.flash('error'),
+  })
+})
+
+router.get('/checkup/print/preview', async (req, res) => {
+  let data = {}
+
+  data.checkup = await db.Checkup.findAll();
+
+  res.render('./pages/dashboard/print/checkup', { 
+    layout: 'layouts/print',
+    data 
+  })
+})
+
 router.get('/pengaturan', async (req, res) => {
   let data = {}
 

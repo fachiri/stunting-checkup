@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Balita</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <table class="table table-striped" id="tabel-balita">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Jenis Kelamin</th>
+        <th>Berat Badan</th>
+        <th>Tinggi Badan</th>
+        <th>Umur</th>
+        <th>Status Imunisasi</th>
+        <th>Status Checkup</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.balita.forEach(e=> { %>
+        <tr>
+          <td>
+            <%= e.nama %>
+          </td>
+          <td>
+            <%= e.jenis_kelamin %>
+          </td>
+          <td>
+            <%= e.berat_badan %>
+          </td>
+          <td>
+            <%= e.tinggi_badan %>
+          </td>
+          <td>
+            <%= e.umur %>
+          </td>
+          <td>
+            <span class="badge <%= e.status_imunisasi == 'Lengkap' ? 'bg-success' : 'bg-danger' %>">
+              <%= e.status_imunisasi %>
+            </span>
+          </td>
+          <td>
+            <span class="badge <%= e.status_checkup == 'Sudah Checkup' ? 'bg-success' : 'bg-danger' %>">
+              <%= e.status_checkup %>
+            </span>
+          </td>
+        </tr>
+        <% }) %>
+    </tbody>
+  </table>
+
+  <script>
+    window.print()
+  </script>
+</body>
+</html>

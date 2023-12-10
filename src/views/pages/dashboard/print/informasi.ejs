@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Informasi</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+
+  <body>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama Acara</th>
+          <th>Tanggal</th>
+          <th>Waktu Mulai</th>
+          <th>Waktu Berakhir</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.informasi.forEach(function(item,index){ %>
+          <tr>
+            <td>
+              <%= index + 1 %>
+            </td>
+            <td>
+              <%= item.nama_acara %>
+            </td>
+            <td>
+              <%= item.tanggal %>
+            </td>
+            <td>
+              <%= item.waktu_mulai %>
+            </td>
+            <td>
+              <%= item.waktu_selesai %>
+            </td>
+            <td>
+              <% if(item.status=='Pending' ){ %>
+                <span class="badge bg-warning">Pending</span>
+                <% } %>
+                  <% if(item.status=='Aktif' ){ %>
+                    <span class="badge bg-success">Berjalan</span>
+                    <% } %>
+                      <% if(item.status=='Selesai' ){ %>
+                        <span class="badge bg-danger">Selesai</span>
+                        <% } %>
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
+
+    <script>
+      window.print()
+    </script>
+  </body>
+
+</html>

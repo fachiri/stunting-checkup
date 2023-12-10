@@ -11,7 +11,15 @@ router.get('/login', (_, res) => res.redirect('/auth/login'))
 router.get('/dashboard', (_, res) => res.redirect('/dasbor'))
 
 router.use('/auth', auth);
-router.use('/dasbor', isLoggedIn, dashboard);
-router.use('/dasbor/master', isLoggedIn, master);
+router.use(
+  '/dasbor',
+  isLoggedIn,
+  dashboard
+);
+router.use(
+  '/dasbor/master',
+  // isLoggedIn,
+  master
+);
 
 module.exports = router;

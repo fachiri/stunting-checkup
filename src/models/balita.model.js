@@ -28,6 +28,11 @@ module.exports = (sequelize, Sequelize) => {
     status_imunisasi: {
       type: Sequelize.STRING(13),
       allowNull: false,
+    },
+    status_checkup: {
+      type: Sequelize.STRING(13),
+      allowNull: false,
+      defaultValue: "Belum Checkup"
     }
   })
 

@@ -176,5 +176,27 @@ router.post('/imunisasi', async (req, res) => {
   }
 })
 
+router.get('/balita/print/preview', async (req, res) => {
+  let data = {}
+
+  data.balita = await db.Balita.findAll();
+
+  res.render('./pages/dashboard/print/balita', { 
+    layout: 'layouts/print',
+    data 
+  })
+})
+
+router.get('/informasi/print/preview', async (req, res) => {
+  let data = {}
+
+  data.informasi = await db.Informasi.findAll();
+
+  res.render('./pages/dashboard/print/informasi', { 
+    layout: 'layouts/print',
+    data 
+  })
+})
+
 module.exports = router
 
