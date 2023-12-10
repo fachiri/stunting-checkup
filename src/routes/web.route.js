@@ -18,7 +18,7 @@ router.use(
 );
 router.use(
   '/dasbor/master',
-  // isLoggedIn,
+  isLoggedIn,
   master
 );
 
