@@ -72,5 +72,59 @@ module.exports = {
       req.flash('form', req.body);
       res.redirect(`/dasbor/master/balita/${req.params.uuid}`)
     }
-  }
+  },
+  validateStoreKader: async (req, res, next) => {
+    try {
+      const schema = Joi.object({
+        name: Joi.string().required().messages({
+          'string.empty': 'Nama harus diisi'
+        }),
+        username: Joi.string().required().messages({
+          'string.empty': 'Username harus diisi'
+        }),
+        nama_puskesmas: Joi.string().required().messages({
+          'string.empty': 'Nama Puskesmas harus diisi'
+        }),
+        kecamatan_puskesmas: Joi.string().required().messages({
+          'string.empty': 'Kecamatan harus diisi'
+        }),
+      });
+
+      const { name, username, nama_puskesmas, kecamatan_puskesmas } = req.body
+      await schema.validateAsync({ name, username, nama_puskesmas, kecamatan_puskesmas })
+
+      next()
+    } catch (error) {
+      req.flash('error', error.message);
+      req.flash('form', req.body);
+      res.redirect(`/dasbor/master/kader`)
+    }
+  },
+  validateUpdateKader: async (req, res, next) => {
+    try {
+      const schema = Joi.object({
+        name: Joi.string().required().messages({
+          'string.empty': 'Nama harus diisi'
+        }),
+        username: Joi.string().required().messages({
+          'string.empty': 'Username harus diisi'
+        }),
+        nama_puskesmas: Joi.string().required().messages({
+          'string.empty': 'Nama Puskesmas harus diisi'
+        }),
+        kecamatan_puskesmas: Joi.string().required().messages({
+          'string.empty': 'Kecamatan harus diisi'
+        }),
+      });
+
+      const { name, username, nama_puskesmas, kecamatan_puskesmas } = req.body
+      await schema.validateAsync({ name, username, nama_puskesmas, kecamatan_puskesmas })
+
+      next()
+    } catch (error) {
+      req.flash('error', error.message);
+      req.flash('form', req.body);
+      res.redirect(`/dasbor/master/kader/${req.params.uuid}`)
+    }
+  },
 }

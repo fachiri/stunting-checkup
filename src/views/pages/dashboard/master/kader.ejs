@@ -1,0 +1,84 @@
+<div class="page-content">
+  <section class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body px-4 py-4-5">
+          <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahKaderModal">
+            Tambah Data
+          </button>
+          <div class="modal fade" id="tambahKaderModal" tabindex="-1" aria-labelledby="tambahKaderModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="tambahKaderModalLabel">Tambah Balita</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST">
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Nama Lengkap</label>
+                      <input type="text" class="form-control" name="name" id="name" value="<%= oldData[0]?.name %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="username" class="form-label">Username</label>
+                      <input type="text" class="form-control" name="username" id="username"
+                        value="<%= oldData[0]?.username %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="kecamatan_puskesmas" class="form-label">Kecamatan</label>
+                      <input type="text" class="form-control" name="kecamatan_puskesmas" id="kecamatan_puskesmas"
+                        value="<%= oldData[0]?.kecamatan_puskesmas %>">
+                    </div>
+                    <div class="mb-3">
+                      <label for="nama_puskesmas" class="form-label">Nama Puskesmas</label>
+                      <input type="text" class="form-control" name="nama_puskesmas" id="nama_puskesmas"
+                        value="<%= oldData[0]?.nama_puskesmas %>">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <table class="table table-striped" id="tabel-balita">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Kesamatan</th>
+                <th>Puskesmas</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.kader.forEach(e=> { %>
+                <tr>
+                  <td>
+                    <%= e.name %>
+                  </td>
+                  <td>
+                    <%= e.kecamatan_puskesmas %>
+                  </td>
+                  <td>
+                    <%= e.nama_puskesmas %>
+                  </td>
+                  <td>
+                    <a href="/dasbor/master/kader/<%= e.uuid %>" class="badge bg-primary">
+                      <i class="bi bi-list-ul"></i>
+                    </a>
+                    <a href="/dasbor/master/kader/<%= e.uuid %>/delete" class="badge bg-danger">
+                      <i class="bi bi-trash-fill"></i>
+                    </a>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

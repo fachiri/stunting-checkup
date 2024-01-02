@@ -45,6 +45,11 @@ const limiter = rateLimit({
   },
 })
 
+app.use(function(req, res, next) {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.use('/', routeWeb)
 app.use('/api', limiter, routeApi)
 

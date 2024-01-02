@@ -1,9 +1,8 @@
-const { validateStoreBalita, validateUpdateBalita } = require('../middlewares/validation');
-const { UUIDV4 } = require('sequelize')
+const { validateStoreBalita, validateUpdateBalita, validateStoreKader, validateUpdateKader } = require('../middlewares/validation');
 const db = require('../models')
 const express = require('express')
 const { v4: uuidv4 } = require('uuid')
-const session = require('express')
+const bcrypt = require('bcryptjs')
 
 const router = express.Router()
 
@@ -196,6 +195,113 @@ router.get('/informasi/print/preview', async (req, res) => {
     layout: 'layouts/print',
     data 
   })
+})
+
+router.get('/kader', async (req, res) => {
+  const kaders = await db.User.findAll({
+    where: {
+      role: 'KADER'
+    }
+  });
+
+  const data = {
+    kader: kaders
+  }
+
+  res.render('./pages/dashboard/master/kader', {
+    title: 'Master Kader',
+    layout: 'layouts/dashboard',
+    successMessages: req.flash('success'),
+    errorMessages: req.flash('error'),
+    oldData: req.flash('form'),
+    data
+  })
+})
+
+router.post('/kader', validateStoreKader, async (req, res) => {
+  try {
+    const { name, username, nama_puskesmas, kecamatan_puskesmas } = req.body
+    await db.User.create({
+      name,
+      username,
+      role: 'KADER',
+      password: bcrypt.hashSync(username),
+      kecamatan_puskesmas,
+      nama_puskesmas
+    })
+
+    req.flash('success', 'Data Kader berhasil disimpan.');
+    res.redirect(`/dasbor/master/kader`)
+  } catch (error) {
+    req.flash('error', error.message);
+    res.redirect(`/dasbor/master/kader`)
+  }
+})
+
+router.get('/kader/:uuid/delete', async (req, res) => {
+  try {
+    const data = await db.User.findOne({
+      where: {
+        uuid: req.params.uuid
+      }
+    });
+
+    if (!data) {
+      throw new Error('Data tidak ditemukan')
+    }
+
+    data.destroy()
+
+    req.flash('success', 'Data kader berhasil dihapus.');
+    res.redirect(`/dasbor/master/kader`)
+  } catch (error) {
+    req.flash('error', error.message);
+    res.redirect(`/dasbor/master/kader`)
+  }
+})
+
+router.get('/kader/:uuid', async (req, res) => {
+  const dataKader = await db.User.findOne({
+    where: {
+      uuid: req.params.uuid
+    }
+  });
+
+  const data = {
+    kader: dataKader
+  }
+
+  res.render('./pages/dashboard/master/kader-detail', {
+    title: 'Detail Kader',
+    layout: 'layouts/dashboard',
+    successMessages: req.flash('success'),
+    errorMessages: req.flash('error'),
+    oldData: req.flash('form'),
+    data
+  })
+})
+
+router.post('/kader/:uuid/update', validateUpdateKader, async (req, res) => {
+  try {
+    const data = await db.User.findOne({
+      where: {
+        uuid: req.params.uuid
+      }
+    });
+
+    if (!data) {
+      throw new Error('Data tidak ditemukan')
+    }
+
+    data.update(req.body)
+
+    req.flash('success', 'Data kader berhasil diedit.');
+    res.redirect(`/dasbor/master/kader/${data.uuid}`)
+  } catch (error) {
+    console.log(error)
+    req.flash('error', error.message);
+    res.redirect(`/dasbor/master/kader`)
+  }
 })
 
 module.exports = router

@@ -1,14 +1,20 @@
-<% const links={ 
-  Dasbor: [ 
-    { label: 'Dasbor' , href: '/dasbor' , iconClass: 'bi bi-grid-fill' },
-    { label: 'Checkup' , href: '/dasbor/checkup' , iconClass: 'bi bi-calendar2-check-fill' } 
-  ], 
-  Master: [ {
-  label: 'Balita' , href: '/dasbor/master/balita' , iconClass: 'bi bi-people-fill' }, { label: 'Imunisasi' ,
-  href: '/dasbor/master/imunisasi' , iconClass: 'bi bi-bandaid-fill' } ], 
-  Lainnya: [ { label: 'Pengaturan' ,
-  href: '/dasbor/pengaturan' , iconClass: 'bi bi-gear-fill' }, { label: 'Keluar' , href: '/dasbor/logout' ,
-  iconClass: 'bi bi-door-closed-fill' } ] } %>
+<% 
+  const links = { 
+    Dasbor: [ 
+      { label: 'Dasbor' , href: '/dasbor' , iconClass: 'bi bi-grid-fill' },
+      { label: 'Checkup' , href: '/dasbor/checkup' , iconClass: 'bi bi-calendar2-check-fill' },
+    ], 
+    Master: [ 
+      { label: 'Balita' , href: '/dasbor/master/balita' , iconClass: 'bi bi-people-fill', roles: ['ADMIN'] }, 
+      { label: 'Imunisasi' , href: '/dasbor/master/imunisasi' , iconClass: 'bi bi-bandaid-fill' },
+      { label: 'Kader' , href: '/dasbor/master/kader' , iconClass: 'bi bi-person-workspace' },
+    ], 
+    Lainnya: [ 
+      { label: 'Pengaturan' , href: '/dasbor/pengaturan', iconClass: 'bi bi-gear-fill' }, 
+      { label: 'Keluar' , href: '/dasbor/logout', iconClass: 'bi bi-door-closed-fill' },
+    ]
+  }
+%>
 
   <div id="sidebar">
     <div class="sidebar-wrapper active">
@@ -54,16 +60,18 @@
               <%= key %>
             </li>
             <% for (const link of links[key]) { %>
-              <li class="sidebar-item">
-                <a href="<%= link.href %>" class='sidebar-link'>
-                  <i class="<%= link.iconClass %>"></i>
-                  <span>
-                    <%= link.label %>
-                  </span>
-                </a>
-              </li>
+              <% if (!link.roles || link.roles.some(role => user.role.includes(role))) { %>
+                <li class="sidebar-item">
+                  <a href="<%= link.href %>" class='sidebar-link'>
+                    <i class="<%= link.iconClass %>"></i>
+                    <span>
+                      <%= link.label %>
+                    </span>
+                  </a>
+                </li>
               <% } %>
-                <% }; %>
+            <% } %>
+          <% } %>
         </ul>
       </div>
     </div>

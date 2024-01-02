@@ -17,7 +17,7 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await db.User.findOne({ username });
+    const user = await db.User.findOne({ where: { username } });
 
     if (!user) {
       throw new Error('Invalid username or password')
