@@ -83,5 +83,31 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.get('/:uuid', async (req, res) => {
+  try {
+    const data = await db.Checkup.findOne({
+      where: {
+        uuid: req.params.uuid
+      }
+    })
+
+    if (!data || data.length === 0) {
+      throw {code: 404, message: 'Data tidak ditemukan'}
+    }
+
+    res.status(200).send({
+      success: true,
+      message: 'Fetch data berhasil.',
+      data
+    })
+  } catch (error) {
+    res.status(error.code || 500).send({
+      success: false,
+      message: error.message,
+      data: {}
+    })
+  }
+})
+
 module.exports = router
 
