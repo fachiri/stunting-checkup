@@ -85,7 +85,7 @@ router.post('/', async (req, res) => {
 
 router.get('/:uuid', async (req, res) => {
   try {
-    const data = await db.Checkup.findOne({
+    const data = await db.Balita.findOne({
       where: {
         uuid: req.params.uuid
       }

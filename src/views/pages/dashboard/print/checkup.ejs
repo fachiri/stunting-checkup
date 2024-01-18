@@ -12,12 +12,12 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>Tanggal</th>
           <th>Nama</th>
           <th>Jenis Kelamin</th>
           <th>Berat Badan</th>
           <th>Tinggi Badan</th>
           <th>Umur</th>
-          <th>Status Checkup</th>
           <th>Status Kesehatan</th>
         </tr>
       </thead>
@@ -25,24 +25,22 @@
         <% data.checkup.forEach(function(e,index){ %>
           <tr>
             <td>
-              <%= e.name %>
+              <%= e.createdAt.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }) %>
+            </td>
+            <td>
+              <%= e.master_balitum.nama %>
             </td>
             <td>
               <%= e.jk==1 ? 'Laki-laki' : 'Perempuan' %>
             </td>
             <td>
-              <%= e.bb %>
+              <%= e.bb %> kg
             </td>
             <td>
-              <%= e.tb %>
+              <%= e.tb %> cm
             </td>
             <td>
               <%= e.age %> Bulan
-            </td>
-            <td>
-              <span class="badge bg-success">
-                Sudah Checkup
-              </span>
             </td>
             <td>
               <% if (e.label==1) { %>

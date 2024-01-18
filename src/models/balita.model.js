@@ -9,6 +9,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING(50),
       allowNull: false,
     },
+    alamat: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     jenis_kelamin: {
       type: Sequelize.STRING(9),
       allowNull: false,

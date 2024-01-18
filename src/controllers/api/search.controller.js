@@ -8,12 +8,13 @@ router.get('/', async (req, res) => {
   try {
     const { keywords } = req.query
 
-    const data = await db.Checkup.findAll({
+    const data = await db.Balita.findAll({
       where: {
-        name: {
+        nama: {
           [Op.like]: `%${keywords}%`,
         },
       },
+      include: db.Checkup
     });
 
     if (!data || data.length === 0) {

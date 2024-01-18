@@ -5,14 +5,6 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       defaultValue: Sequelize.UUIDV4
     },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    address: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
     age: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -24,16 +16,6 @@ module.exports = (sequelize, Sequelize) => {
     tb: {
       type: Sequelize.DECIMAL(5, 2),
       allowNull: false,
-    },
-    jk: {
-      type: Sequelize.INTEGER(1),
-      allowNull: false,
-      validate: {
-        isIn: {
-          args: [[0, 1]],
-          msg: "jk must be 0 or 1"
-        }
-      }
     },
     label: {
       type: Sequelize.INTEGER(1),

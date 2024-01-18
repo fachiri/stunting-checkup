@@ -40,7 +40,9 @@ router.get('/', async (req, res) => {
 router.get('/checkup', async (req, res) => {
   let data = {}
 
-  data.checkups = await db.Checkup.findAll();
+  data.checkups = await db.Checkup.findAll({
+    include: db.Balita
+  });
 
   res.render('./pages/dashboard/checkup', {
     title: 'Rekap Checkup',
@@ -54,7 +56,9 @@ router.get('/checkup', async (req, res) => {
 router.get('/checkup/print/preview', async (req, res) => {
   let data = {}
 
-  data.checkup = await db.Checkup.findAll();
+  data.checkup = await db.Checkup.findAll({
+    include: db.Balita
+  });
 
   res.render('./pages/dashboard/print/checkup', { 
     layout: 'layouts/print',

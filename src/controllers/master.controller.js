@@ -2,7 +2,8 @@ const { validateStoreBalita, validateUpdateBalita, validateStoreKader, validateU
 const db = require('../models')
 const express = require('express')
 const { v4: uuidv4 } = require('uuid')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const algorithmUtil = require('../utils/algorithm.util');
 
 const router = express.Router()
 
@@ -42,6 +43,43 @@ router.get('/balita/:uuid', async (req, res) => {
     oldData: req.flash('form'),
     data
   })
+})
+
+router.post('/balita/:uuid/checkup', async (req, res) => {
+  try {
+    const data = await db.Balita.findOne({
+      where: {
+        uuid: req.params.uuid
+      }
+    });
+
+    if (!data) {
+      throw new Error('Data tidak ditemukan')
+    }
+    
+    const jk = data.jenis_kelamin = 'Laki-laki' ? 1 : 0
+    const { predict_result, predict_accuracy, predict_proba_x, predict_proba_y } = await algorithmUtil.decisionTreeClassifier(+data.berat_badan, +data.tinggi_badan, +data.umur, jk)
+
+    await db.Checkup.create({
+      age: data.umur,
+      bb: data.berat_badan,
+      tb: data.tinggi_badan,
+      jk,
+      label: predict_result,
+      accuracy: predict_accuracy,
+      masterBalitumId: data.id
+    })
+
+    data.update({
+      status_checkup: 'Sudah Checkup'
+    })
+
+    req.flash('success', 'Checkup berhasil.');
+  } catch (error) {
+    req.flash('error', error.message);
+  } finally {
+    res.redirect(`/dasbor/master/balita/${req.params.uuid}`)
+  }
 })
 
 router.post('/balita', validateStoreBalita, async (req, res) => {
@@ -166,7 +204,7 @@ router.post('/imunisasi', async (req, res) => {
       status: status,
     }
     await db.Informasi.create(sendData)
-    
+
     req.flash('success', 'Data berhasil disimpan.');
     res.redirect(`/dasbor/master/imunisasi`)
   } catch (error) {
@@ -180,9 +218,9 @@ router.get('/balita/print/preview', async (req, res) => {
 
   data.balita = await db.Balita.findAll();
 
-  res.render('./pages/dashboard/print/balita', { 
+  res.render('./pages/dashboard/print/balita', {
     layout: 'layouts/print',
-    data 
+    data
   })
 })
 
@@ -191,9 +229,9 @@ router.get('/informasi/print/preview', async (req, res) => {
 
   data.informasi = await db.Informasi.findAll();
 
-  res.render('./pages/dashboard/print/informasi', { 
+  res.render('./pages/dashboard/print/informasi', {
     layout: 'layouts/print',
-    data 
+    data
   })
 })
 

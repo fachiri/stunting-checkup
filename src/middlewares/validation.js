@@ -7,6 +7,9 @@ module.exports = {
         nama: Joi.string().required().messages({
           'string.empty': 'Nama harus diisi'
         }),
+        alamat: Joi.string().required().messages({
+          'string.empty': 'Alamat harus diisi'
+        }),
         jenis_kelamin: Joi.string().required().messages({
           'string.empty': 'Jenis kelamin harus diisi'
         }),
@@ -27,8 +30,8 @@ module.exports = {
         })
       });
 
-      const { nama, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi } = req.body
-      await schema.validateAsync({ nama, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi })
+      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi } = req.body
+      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi })
 
       next()
     } catch (error) {
@@ -43,6 +46,9 @@ module.exports = {
         nama: Joi.string().required().messages({
           'string.empty': 'Nama harus diisi'
         }),
+        alamat: Joi.string().required().messages({
+          'string.empty': 'Alamat harus diisi'
+        }),
         jenis_kelamin: Joi.string().required().messages({
           'string.empty': 'Jenis kelamin harus diisi'
         }),
@@ -63,8 +69,8 @@ module.exports = {
         })
       });
 
-      const { nama, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi } = req.body
-      await schema.validateAsync({ nama, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi })
+      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi } = req.body
+      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi })
 
       next()
     } catch (error) {
