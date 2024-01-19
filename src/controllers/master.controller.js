@@ -129,7 +129,13 @@ router.get('/balita/:uuid/delete', async (req, res) => {
       throw new Error('Data tidak ditemukan')
     }
 
-    data.destroy()
+    await db.Checkup.destroy({
+      where: {
+        masterBalitumId: data.id
+      }
+    });
+
+    await data.destroy()
 
     req.flash('success', 'Data balita berhasil dihapus.');
     res.redirect(`/dasbor/master/balita`)
@@ -138,8 +144,6 @@ router.get('/balita/:uuid/delete', async (req, res) => {
     req.flash('error', error.message);
     res.redirect(`/dasbor/master/balita`)
   }
-  const data = db.Checkup.findAll()
-  res.render('./pages/dashboard/master/balita', { title: 'Master Balita', layout: 'layouts/dashboard' })
 })
 
 router.get('/imunisasi', async (req, res) => {
