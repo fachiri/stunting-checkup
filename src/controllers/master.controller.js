@@ -84,7 +84,13 @@ router.post('/balita/:uuid/checkup', async (req, res) => {
 
 router.post('/balita', validateStoreBalita, async (req, res) => {
   try {
-    const data = await db.Balita.create(req.body)
+    const { nama, alamat, jenis_kelamin, tahun, bulan, berat_badan, tinggi_badan, status_imunisasi } = req.body
+
+    const data = await db.Balita.create({
+      nama, alamat, jenis_kelamin,
+      umur: (+tahun * 12) + +bulan,
+      berat_badan, tinggi_badan, status_imunisasi
+    })
 
     req.flash('success', 'Data balita berhasil disimpan.');
     res.redirect(`/dasbor/master/balita/${data.uuid}`)
@@ -105,8 +111,14 @@ router.post('/balita/:uuid/update', validateUpdateBalita, async (req, res) => {
     if (!data) {
       throw new Error('Data tidak ditemukan')
     }
+    
+    const { nama, alamat, jenis_kelamin, tahun, bulan, berat_badan, tinggi_badan, status_imunisasi } = req.body
 
-    data.update(req.body)
+    data.update({
+      nama, alamat, jenis_kelamin,
+      umur: (+tahun * 12) + +bulan,
+      berat_badan, tinggi_badan, status_imunisasi
+    })
 
     req.flash('success', 'Data balita berhasil diedit.');
     res.redirect(`/dasbor/master/balita/${data.uuid}`)

@@ -11,6 +11,7 @@ const flash = require('express-flash');
 const middlewares = require('./middlewares')
 const routeWeb = require('./routes/web.route')
 const routeApi = require('./routes/api.route')
+const keys = require('./config/keys')
 
 const app = express()
 
@@ -47,6 +48,7 @@ const limiter = rateLimit({
 
 app.use(function(req, res, next) {
   res.locals.user = req.session.user;
+  res.locals.baseUrl = keys.app.url;
   next();
 });
 

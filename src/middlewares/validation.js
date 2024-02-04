@@ -21,17 +21,21 @@ module.exports = {
           'number.base': 'Tinggi badan harus berupa angka',
           'any.required': 'Tinggi badan harus diisi'
         }),
-        umur: Joi.number().required().messages({
-          'number.base': 'Umur badan harus berupa angka',
-          'any.required': 'Umur badan harus diisi'
+        tahun: Joi.number().required().messages({
+          'number.base': 'Tahun harus berupa angka',
+          'any.required': 'Tahun harus diisi'
+        }),
+        bulan: Joi.number().required().messages({
+          'number.base': 'Bulan harus berupa angka',
+          'any.required': 'Bulan harus diisi'
         }),
         status_imunisasi: Joi.string().required().messages({
           'string.empty': 'Status imunisasi harus diisi'
         })
       });
 
-      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi } = req.body
-      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi })
+      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi } = req.body
+      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi })
 
       next()
     } catch (error) {
@@ -60,17 +64,21 @@ module.exports = {
           'number.base': 'Tinggi badan harus berupa angka',
           'any.required': 'Tinggi badan harus diisi'
         }),
-        umur: Joi.number().required().messages({
-          'number.base': 'Umur badan harus berupa angka',
-          'any.required': 'Umur badan harus diisi'
+        tahun: Joi.number().required().messages({
+          'number.base': 'Tahun harus berupa angka',
+          'any.required': 'Tahun harus diisi'
+        }),
+        bulan: Joi.number().required().messages({
+          'number.base': 'Bulan harus berupa angka',
+          'any.required': 'Bulan harus diisi'
         }),
         status_imunisasi: Joi.string().required().messages({
           'string.empty': 'Status imunisasi harus diisi'
         })
       });
 
-      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi } = req.body
-      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, umur, status_imunisasi })
+      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi } = req.body
+      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi })
 
       next()
     } catch (error) {
