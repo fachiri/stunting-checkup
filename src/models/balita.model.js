@@ -18,11 +18,11 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
     berat_badan: {
-      type: Sequelize.INTEGER(3),
+      type: Sequelize.DECIMAL(5, 1),
       allowNull: false,
     },
     tinggi_badan: {
-      type: Sequelize.INTEGER(3),
+      type: Sequelize.DECIMAL(5, 1),
       allowNull: false,
     },
     umur: {

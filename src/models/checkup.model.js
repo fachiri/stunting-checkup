@@ -10,11 +10,11 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
     bb: {
-      type: Sequelize.DECIMAL(5, 2),
+      type: Sequelize.DECIMAL(5, 1),
       allowNull: false,
     },
     tb: {
-      type: Sequelize.DECIMAL(5, 2),
+      type: Sequelize.DECIMAL(5, 1),
       allowNull: false,
     },
     label: {

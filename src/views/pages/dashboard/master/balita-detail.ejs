@@ -89,6 +89,7 @@
                         <div class="col-6">
                           <select class="form-select" name="tahun" id="tahun">
                             <option value="" hidden>Tahun..</option>
+                            <option <%= Math.floor(+data.balita.umur / 12) == 0 ? 'selected' : null %> value="0">0 Tahun</option>
                             <option <%= Math.floor(+data.balita.umur / 12) == 1 ? 'selected' : null %> value="1">1 Tahun</option>
                             <option <%= Math.floor(+data.balita.umur / 12) == 2 ? 'selected' : null %> value="2">2 Tahun</option>
                             <option <%= Math.floor(+data.balita.umur / 12) == 3 ? 'selected' : null %> value="3">3 Tahun</option>
@@ -117,11 +118,11 @@
                     </div>
                     <div class="col-4">
                       <label for="berat_badan" class="form-label">Berat Badan (BB)</label>
-                      <input type="number" class="form-control" name="berat_badan" id="berat_badan" value="<%= data.balita.berat_badan %>">
+                      <input type="number" step="0.1" class="form-control" name="berat_badan" id="berat_badan" value="<%= data.balita.berat_badan %>">
                     </div>
                     <div class="col-4">
                       <label for="tinggi_badan" class="form-label">Tinggi Badan (TB)</label>
-                      <input type="number" class="form-control" name="tinggi_badan" id="tinggi_badan" value="<%= data.balita.tinggi_badan %>">
+                      <input type="number" step="0.1" class="form-control" name="tinggi_badan" id="tinggi_badan" value="<%= data.balita.tinggi_badan %>">
                     </div>
                   </div>
                   <div class="mb-3">
