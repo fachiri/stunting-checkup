@@ -3,7 +3,46 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
-          <a href="/dasbor/checkup/print/preview" class="btn btn-success mb-3">
+          <form action="" method="GET">
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label class="form-label">Bulan</label>
+                <select class="form-select" name="month" id="month">
+                  <option value="" hidden>-Pilih-</option>
+                  <option value="01" <%= data.queryParams.month == '01' ? 'selected' : null %> >Januari</option>
+                  <option value="02" <%= data.queryParams.month == '02' ? 'selected' : null %> >Februari</option>
+                  <option value="03" <%= data.queryParams.month == '03' ? 'selected' : null %> >Maret</option>
+                  <option value="04" <%= data.queryParams.month == '04' ? 'selected' : null %> >April</option>
+                  <option value="05" <%= data.queryParams.month == '05' ? 'selected' : null %> >Mei</option>
+                  <option value="06" <%= data.queryParams.month == '06' ? 'selected' : null %> >Juni</option>
+                  <option value="07" <%= data.queryParams.month == '07' ? 'selected' : null %> >Juli</option>
+                  <option value="08" <%= data.queryParams.month == '08' ? 'selected' : null %> >Agustus</option>
+                  <option value="09" <%= data.queryParams.month == '09' ? 'selected' : null %> >September</option>
+                  <option value="10" <%= data.queryParams.month == '10' ? 'selected' : null %> >Oktober</option>
+                  <option value="11" <%= data.queryParams.month == '11' ? 'selected' : null %> >November</option>
+                  <option value="12" <%= data.queryParams.month == '12' ? 'selected' : null %> >Desember</option>
+                </select>
+              </div>
+              <div class="col-6 mb-3">
+                <label class="form-label">Tahun</label>
+                <select class="form-select" name="year" id="year">
+                  <option value="" hidden>-Pilih-</option>
+                  <option value="2023" <%= data.queryParams.year == '2023' ? 'selected' : null %> >2023</option>
+                  <option value="2024" <%= data.queryParams.year == '2024' ? 'selected' : null %> >2024</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body px-4 py-4-5">
+          <a href="/dasbor/checkup/print/preview?month=<%= data.queryParams.month %>&year=<%= data.queryParams.year %>" class="btn btn-success mb-3">
             Print
           </a>
           <table class="table table-striped" id="tabel-balita">
@@ -22,7 +61,8 @@
               <% data.checkups.forEach(e=> { %>
                 <tr>
                   <td>
-                    <%= e.createdAt.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }) %>
+                    <%= e.createdAt.toLocaleDateString('en-US', { day: '2-digit' , month: '2-digit' , year: 'numeric' ,
+                      hour: '2-digit' , minute: '2-digit' , hour12: false }) %>
                   </td>
                   <td>
                     <%= e.master_balitum.nama %>
@@ -40,15 +80,15 @@
                     <%= e.age %> Bulan
                   </td>
                   <td>
-                    <% if (e.label == 1) { %>
+                    <% if (e.label==1) { %>
                       <span class="badge bg-danger">
                         Stunting
                       </span>
-                    <% } else { %>
-                      <span class="badge bg-success">
-                        Tidak Stunting
-                      </span>
-                    <% } %>
+                      <% } else { %>
+                        <span class="badge bg-success">
+                          Tidak Stunting
+                        </span>
+                        <% } %>
                   </td>
                 </tr>
                 <% }) %>

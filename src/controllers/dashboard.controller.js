@@ -40,8 +40,25 @@ router.get('/', async (req, res) => {
 router.get('/checkup', async (req, res) => {
   let data = {}
 
+  if (Object.keys(req.query).length === 0) {
+    const currentDate = new Date();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0'); // Ambil bulan saat ini
+    const currentYear = currentDate.getFullYear(); // Ambil tahun saat ini
+
+    data.queryParams = { month: currentMonth, year: currentYear };
+  } else {
+    data.queryParams = req.query;
+  }
+
+  const month = data.queryParams.month;
+  const year = data.queryParams.year;
+
   data.checkups = await db.Checkup.findAll({
-    include: db.Balita
+    include: db.Balita,
+    where: db.Sequelize.and(
+      db.Sequelize.where(db.Sequelize.fn('MONTH', db.Sequelize.col('checkups.createdAt')), month),
+      db.Sequelize.where(db.Sequelize.fn('YEAR', db.Sequelize.col('checkups.createdAt')), year)
+    )
   });
 
   res.render('./pages/dashboard/checkup', {
@@ -56,13 +73,30 @@ router.get('/checkup', async (req, res) => {
 router.get('/checkup/print/preview', async (req, res) => {
   let data = {}
 
+  if (Object.keys(req.query).length === 0) {
+    const currentDate = new Date();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0'); // Ambil bulan saat ini
+    const currentYear = currentDate.getFullYear(); // Ambil tahun saat ini
+
+    data.queryParams = { month: currentMonth, year: currentYear };
+  } else {
+    data.queryParams = req.query;
+  }
+
+  const month = data.queryParams.month;
+  const year = data.queryParams.year;
+
   data.checkup = await db.Checkup.findAll({
-    include: db.Balita
+    include: db.Balita,
+    where: db.Sequelize.and(
+      db.Sequelize.where(db.Sequelize.fn('MONTH', db.Sequelize.col('checkups.createdAt')), month),
+      db.Sequelize.where(db.Sequelize.fn('YEAR', db.Sequelize.col('checkups.createdAt')), year)
+    )
   });
 
-  res.render('./pages/dashboard/print/checkup', { 
+  res.render('./pages/dashboard/print/checkup', {
     layout: 'layouts/print',
-    data 
+    data
   })
 })
 
