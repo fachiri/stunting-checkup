@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Balita = sequelize.define("master_balita", {
+  const Balita = sequelize.define("toddlers", {
     uuid: {
       type: Sequelize.UUID,
       allowNull: false,
@@ -17,26 +17,13 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING(9),
       allowNull: false,
     },
-    berat_badan: {
-      type: Sequelize.DECIMAL(5, 1),
+    tanggal_lahir: {
+      type: Sequelize.DATEONLY,
       allowNull: false,
     },
-    tinggi_badan: {
-      type: Sequelize.DECIMAL(5, 1),
+    nama_ibu: {
+      type: Sequelize.STRING(50),
       allowNull: false,
-    },
-    umur: {
-      type: Sequelize.INTEGER(3),
-      allowNull: false,
-    },
-    status_imunisasi: {
-      type: Sequelize.STRING(13),
-      allowNull: false,
-    },
-    status_checkup: {
-      type: Sequelize.STRING(13),
-      allowNull: false,
-      defaultValue: "Belum Checkup"
     }
   })
 

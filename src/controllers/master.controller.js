@@ -1,7 +1,6 @@
-const { validateStoreBalita, validateUpdateBalita, validateStoreKader, validateUpdateKader } = require('../middlewares/validation');
+const { validateStoreBalita, validateUpdateBalita, validateStoreKader, validateUpdateKader, validateStoreImunisasi, validateUpdateImunisasi } = require('../middlewares/validation');
 const db = require('../models')
 const express = require('express')
-const { v4: uuidv4 } = require('uuid')
 const bcrypt = require('bcryptjs');
 const algorithmUtil = require('../utils/algorithm.util');
 
@@ -23,7 +22,6 @@ router.get('/balita', async (req, res) => {
     data
   })
 })
-
 router.get('/balita/:uuid', async (req, res) => {
   const dataBalita = await db.Balita.findOne({
     where: {
@@ -44,52 +42,16 @@ router.get('/balita/:uuid', async (req, res) => {
     data
   })
 })
-
-router.post('/balita/:uuid/checkup', async (req, res) => {
-  try {
-    const data = await db.Balita.findOne({
-      where: {
-        uuid: req.params.uuid
-      }
-    });
-
-    if (!data) {
-      throw new Error('Data tidak ditemukan')
-    }
-    
-    const jk = data.jenis_kelamin = 'Laki-laki' ? 1 : 0
-    const { predict_result, predict_accuracy, predict_proba_x, predict_proba_y } = await algorithmUtil.decisionTreeClassifier(+data.berat_badan, +data.tinggi_badan, +data.umur, jk)
-
-    await db.Checkup.create({
-      age: data.umur,
-      bb: data.berat_badan,
-      tb: data.tinggi_badan,
-      jk,
-      label: predict_result,
-      accuracy: predict_accuracy,
-      masterBalitumId: data.id
-    })
-
-    data.update({
-      status_checkup: 'Sudah Checkup'
-    })
-
-    req.flash('success', 'Checkup berhasil.');
-  } catch (error) {
-    req.flash('error', error.message);
-  } finally {
-    res.redirect(`/dasbor/master/balita/${req.params.uuid}`)
-  }
-})
-
 router.post('/balita', validateStoreBalita, async (req, res) => {
   try {
-    const { nama, alamat, jenis_kelamin, tahun, bulan, berat_badan, tinggi_badan, status_imunisasi } = req.body
+    const { nama, tanggal_lahir, jenis_kelamin, nama_ibu, alamat } = req.body
 
     const data = await db.Balita.create({
-      nama, alamat, jenis_kelamin,
-      umur: (+tahun * 12) + +bulan,
-      berat_badan, tinggi_badan, status_imunisasi
+      nama,
+      tanggal_lahir,
+      jenis_kelamin,
+      nama_ibu,
+      alamat
     })
 
     req.flash('success', 'Data balita berhasil disimpan.');
@@ -99,7 +61,6 @@ router.post('/balita', validateStoreBalita, async (req, res) => {
     res.redirect(`/dasbor/master/balita`)
   }
 })
-
 router.post('/balita/:uuid/update', validateUpdateBalita, async (req, res) => {
   try {
     const data = await db.Balita.findOne({
@@ -112,13 +73,7 @@ router.post('/balita/:uuid/update', validateUpdateBalita, async (req, res) => {
       throw new Error('Data tidak ditemukan')
     }
     
-    const { nama, alamat, jenis_kelamin, tahun, bulan, berat_badan, tinggi_badan, status_imunisasi } = req.body
-
-    data.update({
-      nama, alamat, jenis_kelamin,
-      umur: (+tahun * 12) + +bulan,
-      berat_badan, tinggi_badan, status_imunisasi
-    })
+    data.update(req.body)
 
     req.flash('success', 'Data balita berhasil diedit.');
     res.redirect(`/dasbor/master/balita/${data.uuid}`)
@@ -128,7 +83,6 @@ router.post('/balita/:uuid/update', validateUpdateBalita, async (req, res) => {
     res.redirect(`/dasbor/master/balita`)
   }
 })
-
 router.get('/balita/:uuid/delete', async (req, res) => {
   try {
     const data = await db.Balita.findOne({
@@ -141,91 +95,136 @@ router.get('/balita/:uuid/delete', async (req, res) => {
       throw new Error('Data tidak ditemukan')
     }
 
-    await db.Checkup.destroy({
-      where: {
-        masterBalitumId: data.id
-      }
-    });
-
     await data.destroy()
 
-    req.flash('success', 'Data balita berhasil dihapus.');
-    res.redirect(`/dasbor/master/balita`)
+    req.flash('success', 'Data berhasil dihapus.');
   } catch (error) {
-    console.log(error)
     req.flash('error', error.message);
+  } finally {
     res.redirect(`/dasbor/master/balita`)
   }
 })
 
 router.get('/imunisasi', async (req, res) => {
-  const data = await db.Informasi.findAll();
+  let data = {}
+  data.imunisasi = await db.Imunisasi.findAll();
+  data.balita = await db.Balita.findAll();
 
   res.render('./pages/dashboard/master/imunisasi', {
     title: 'Master Imunisasi',
     layout: 'layouts/dashboard',
-    informasi: data,
+    data,
     successMessages: req.flash('success'),
     errorMessages: req.flash('error'),
+    oldData: req.flash('form')
   })
 })
-
-router.get('/imunisasi/:id', async (req, res) => {
-  const data = await db.Informasi.findAll({ where: { uuid: req.params.id } });
-  res.render('./pages/dashboard/master/editInformasi', {
-    title: 'Master Informasi Imunisasi',
-    layout: 'layouts/dashboard',
-    data: data,
-    successMessages: req.flash('success'),
-    errorMessages: req.flash('error'),
-  })
-})
-
-router.post('/imunisasi/hapus/:id', async (req, res) => {
+router.post('/imunisasi', validateStoreImunisasi, async (req, res) => {
   try {
-    await db.Informasi.destroy({ where: { uuid: req.params.id } });
+    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan  } = req.body
 
-    req.flash('success', 'Data berhasil dihapus.');
-    res.redirect(`/dasbor/master/imunisasi`)
-  } catch (error) {
-    req.flash('error', error.message);
-    res.redirect(`/dasbor/master/imunisasi`)
-  }
-})
-
-router.post('/imunisasi/edit/:id', async (req, res) => {
-  try {
-    await db.Informasi.update(req.body, { where: { id: req.params.id } });
-
-    req.flash('success', 'Data berhasil diedit.');
-    res.redirect(`/dasbor/master/imunisasi`)
-  } catch (error) {
-    req.flash('error', error.message);
-    res.redirect(`/dasbor/master/imunisasi`)
-  }
-})
-
-router.post('/imunisasi', async (req, res) => {
-  const { lokasi, acara, status, nama_acara, tanggal, waktu_mulai, waktu_berakhir, deskripsi } = req.body
-  try {
-    const sendData = {
-      uuid: uuidv4(),
-      nama_acara: nama_acara,
-      tanggal: tanggal,
-      waktu_mulai: waktu_mulai,
-      waktu_selesai: waktu_berakhir,
-      deskripsi: deskripsi,
-      lokasi: lokasi,
-      pembuat_acara: acara,
-      status: status,
-    }
-    await db.Informasi.create(sendData)
+    await db.Imunisasi.create({
+      toddlerId,
+      nama_imunisasi,
+      umur: (+tahun * 12) + +bulan,
+      berat_badan, 
+      tinggi_badan,
+    })
 
     req.flash('success', 'Data berhasil disimpan.');
     res.redirect(`/dasbor/master/imunisasi`)
   } catch (error) {
     req.flash('error', error.message);
     res.redirect(`/dasbor/master/imunisasi`)
+  }
+})
+router.get('/imunisasi/:uuid', async (req, res) => {
+  let data = {}
+  data.imunisasi = await db.Imunisasi.findOne({ 
+    where: { uuid: req.params.uuid },
+    include: [db.Balita, db.Checkup]
+  });
+  data.balita = await db.Balita.findAll();
+
+  res.render('./pages/dashboard/master/imunisasi-detail', {
+    title: 'Detail Imunisasi',
+    layout: 'layouts/dashboard',
+    data: data,
+    successMessages: req.flash('success'),
+    errorMessages: req.flash('error'),
+  })
+})
+router.get('/imunisasi/:uuid/delete', async (req, res) => {
+  try {
+    await db.Imunisasi.destroy({ where: { uuid: req.params.uuid } });
+
+    req.flash('success', 'Data berhasil dihapus.');
+  } catch (error) {
+    req.flash('error', error.message);
+  } finally {
+    res.redirect(`/dasbor/master/imunisasi`)
+  }
+})
+router.post('/imunisasi/:uuid/update', validateUpdateImunisasi, async (req, res) => {
+  try {
+    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan  } = req.body
+
+    await db.Imunisasi.update({
+      toddlerId,
+      nama_imunisasi,
+      umur: (+tahun * 12) + +bulan,
+      berat_badan, 
+      tinggi_badan,
+    }, { where: { uuid: req.params.uuid } })
+
+    req.flash('success', 'Data berhasil diedit.');
+  } catch (error) {
+    req.flash('error', error.message);
+  } finally {
+    res.redirect(`/dasbor/master/imunisasi/${req.params.uuid}`)
+  }
+})
+router.post('/imunisasi/:uuid/checkup', async (req, res) => {
+  try {
+    const data = await db.Imunisasi.findOne({
+      where: {
+        uuid: req.params.uuid
+      },
+      include: [db.Balita, db.Checkup]
+    });
+
+    if (!data) {
+      throw new Error('Data tidak ditemukan')
+    }
+
+    const jk = data.toddler.jenis_kelamin = 'Laki-laki' ? 1 : 0
+    const { predict_result, predict_accuracy, predict_proba_x, predict_proba_y } = await algorithmUtil.decisionTreeClassifier(+data.berat_badan, +data.tinggi_badan, +data.umur, jk)
+
+    const payload = {
+      age: data.umur,
+      bb: data.berat_badan,
+      tb: data.tinggi_badan,
+      jk,
+      label: predict_result,
+      accuracy: predict_accuracy,
+      immunizationId: data.id,
+    }
+
+    if (data.checkup) {
+      await db.Checkup.update(payload, {
+        where: {
+          id: data.checkup.id
+        }
+      });
+      req.flash('success', 'Cek Stunting berhasil diupdate.');
+    } else {
+      await db.Checkup.create(payload)
+      req.flash('success', 'Cek Stunting berhasil.');
+    }
+  } catch (error) {
+    req.flash('error', error.message);
+  } finally {
+    res.redirect(`/dasbor/master/imunisasi/${req.params.uuid}`)
   }
 })
 
@@ -239,13 +238,14 @@ router.get('/balita/print/preview', async (req, res) => {
     data
   })
 })
-
-router.get('/informasi/print/preview', async (req, res) => {
+router.get('/imunisasi/print/preview', async (req, res) => {
   let data = {}
 
-  data.informasi = await db.Informasi.findAll();
+  data.imunisasi = await db.Imunisasi.findAll({
+    include: [db.Balita, db.Checkup]
+  });
 
-  res.render('./pages/dashboard/print/informasi', {
+  res.render('./pages/dashboard/print/imunisasi', {
     layout: 'layouts/print',
     data
   })

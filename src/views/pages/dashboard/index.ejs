@@ -30,9 +30,9 @@
                   </div>
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                  <h6 class="text-muted font-semibold">Total Balita</h6>
+                  <h6 class="text-muted font-semibold">Total User</h6>
                   <h6 class="font-extrabold mb-0">
-                    <%= data.totalBalitaCount %>
+                    <%= data.totalUserCount %>
                   </h6>
                 </div>
               </div>
@@ -49,9 +49,9 @@
                   </div>
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                  <h6 class="text-muted font-semibold">Lengkap</h6>
+                  <h6 class="text-muted font-semibold">Total Balita</h6>
                   <h6 class="font-extrabold mb-0">
-                    <%= data.lengkapBalitaCount %>
+                    <%= data.totalBalitaCount %>
                   </h6>
                 </div>
               </div>
@@ -68,9 +68,9 @@
                   </div>
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                  <h6 class="text-muted font-semibold">Belum Lengkap</h6>
+                  <h6 class="text-muted font-semibold">Total Imunisasi</h6>
                   <h6 class="font-extrabold mb-0">
-                    <%= data.belumLengkapBalitaCount %>
+                    <%= data.totalImunisasiCount %>
                   </h6>
                 </div>
               </div>
@@ -89,11 +89,9 @@
             <thead>
               <tr>
                 <th>Nama</th>
+                <th>Tanggal Lahir</th>
                 <th>Jenis Kelamin</th>
-                <th>Berat Badan</th>
-                <th>Tinggi Badan</th>
-                <th>Umur</th>
-                <th>Status Imunisasi</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -103,24 +101,18 @@
                     <%= e.nama %>
                   </td>
                   <td>
+                    <%= e.tanggal_lahir %>
+                  </td>
+                  <td>
                     <%= e.jenis_kelamin %>
                   </td>
                   <td>
-                    <%= e.berat_badan %>
-                  </td>
-                  <td>
-                    <%= e.tinggi_badan %>
-                  </td>
-                  <td>
-                    <%= e.umur %>
-                  </td>
-                  <td>
-                    <span class="badge <%= e.status_imunisasi == 'Lengkap' ? 'bg-success' : 'bg-danger' %>">
-                      <%= e.status_imunisasi %>
-                    </span>
+                    <a href="/dasbor/master/balita/<%= e.uuid %>" class="badge bg-primary">
+                      <i class="bi bi-list-ul"></i>
+                    </a>
                   </td>
                 </tr>
-                <% }) %>
+              <% }) %>
             </tbody>
           </table>
         </div>

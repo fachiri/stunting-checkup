@@ -32,7 +32,10 @@
                 </select>
               </div>
               <div class="col-12">
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="bi bi-filter"></i>
+                  Filter
+                </button>
               </div>
             </div>
           </form>
@@ -43,6 +46,7 @@
       <div class="card">
         <div class="card-body px-4 py-4-5">
           <a href="/dasbor/checkup/print/preview?month=<%= data.queryParams.month %>&year=<%= data.queryParams.year %>" class="btn btn-success mb-3">
+            <i class="bi bi-printer"></i>
             Print
           </a>
           <table class="table table-striped" id="tabel-balita">
@@ -65,10 +69,10 @@
                       hour: '2-digit' , minute: '2-digit' , hour12: false }) %>
                   </td>
                   <td>
-                    <%= e.master_balitum.nama %>
+                    <%= e.immunization.toddler.nama %>
                   </td>
                   <td>
-                    <%= e.master_balitum.jenis_kelamin %>
+                    <%= e.jk==1 ? 'Laki-laki' : 'Perempuan' %>
                   </td>
                   <td>
                     <%= e.bb %> kg

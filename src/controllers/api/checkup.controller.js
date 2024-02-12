@@ -88,6 +88,10 @@ router.get('/:uuid', async (req, res) => {
     const data = await db.Balita.findOne({
       where: {
         uuid: req.params.uuid
+      },
+      include: {
+        model: db.Imunisasi,
+        include: db.Checkup,
       }
     })
 

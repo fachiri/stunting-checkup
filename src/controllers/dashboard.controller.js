@@ -7,17 +7,9 @@ const router = express.Router()
 router.get('/', async (req, res) => {
   let data = {}
 
+  data.totalUserCount = await db.User.count();
   data.totalBalitaCount = await db.Balita.count();
-  data.lengkapBalitaCount = await db.Balita.count({
-    where: {
-      status_imunisasi: 'Lengkap',
-    },
-  });
-  data.belumLengkapBalitaCount = await db.Balita.count({
-    where: {
-      status_imunisasi: 'Belum lengkap',
-    },
-  });
+  data.totalImunisasiCount = await db.Imunisasi.count();
   data.user = await db.User.findOne({
     where: {
       uuid: req.session.user.uuid
@@ -54,7 +46,10 @@ router.get('/checkup', async (req, res) => {
   const year = data.queryParams.year;
 
   data.checkups = await db.Checkup.findAll({
-    include: db.Balita,
+    include: {
+      model: db.Imunisasi,
+      include: db.Balita
+    },
     where: db.Sequelize.and(
       db.Sequelize.where(db.Sequelize.fn('MONTH', db.Sequelize.col('checkups.createdAt')), month),
       db.Sequelize.where(db.Sequelize.fn('YEAR', db.Sequelize.col('checkups.createdAt')), year)
@@ -69,7 +64,6 @@ router.get('/checkup', async (req, res) => {
     errorMessages: req.flash('error'),
   })
 })
-
 router.get('/checkup/print/preview', async (req, res) => {
   let data = {}
 
@@ -87,7 +81,10 @@ router.get('/checkup/print/preview', async (req, res) => {
   const year = data.queryParams.year;
 
   data.checkup = await db.Checkup.findAll({
-    include: db.Balita,
+    include: {
+      model: db.Imunisasi,
+      include: db.Balita
+    },
     where: db.Sequelize.and(
       db.Sequelize.where(db.Sequelize.fn('MONTH', db.Sequelize.col('checkups.createdAt')), month),
       db.Sequelize.where(db.Sequelize.fn('YEAR', db.Sequelize.col('checkups.createdAt')), year)
@@ -117,7 +114,6 @@ router.get('/pengaturan', async (req, res) => {
     errorMessages: req.flash('error')
   })
 })
-
 router.post('/pengaturan/update-user/:uuid', async (req, res) => {
   try {
     const data = await db.User.findOne({
@@ -140,7 +136,6 @@ router.post('/pengaturan/update-user/:uuid', async (req, res) => {
     res.redirect(`/dasbor/pengaturan`)
   }
 })
-
 router.post('/pengaturan/change-password/:uuid', async (req, res) => {
   try {
     const data = await db.User.findOne({

@@ -5,38 +5,28 @@ module.exports = {
     try {
       const schema = Joi.object({
         nama: Joi.string().required().messages({
-          'string.empty': 'Nama harus diisi'
+          'any.required': 'Nama harus diisi',
+          'string.empty': 'Nama tidak boleh kosong'
         }),
-        alamat: Joi.string().required().messages({
-          'string.empty': 'Alamat harus diisi'
+        tanggal_lahir: Joi.date().required().messages({
+          'any.required': 'Tanggal lahir harus diisi',
+          'date.base': 'Format tanggal lahir tidak valid'
         }),
         jenis_kelamin: Joi.string().required().messages({
-          'string.empty': 'Jenis kelamin harus diisi'
+          'any.required': 'Jenis kelamin harus diisi',
+          'string.empty': 'Jenis kelamin tidak boleh kosong'
         }),
-        berat_badan: Joi.number().required().messages({
-          'number.base': 'Berat badan harus berupa angka',
-          'any.required': 'Berat badan harus diisi'
+        nama_ibu: Joi.string().required().messages({
+          'any.required': 'Nama Ibu harus diisi',
+          'string.empty': 'Nama Ibu tidak boleh kosong'
         }),
-        tinggi_badan: Joi.number().required().messages({
-          'number.base': 'Tinggi badan harus berupa angka',
-          'any.required': 'Tinggi badan harus diisi'
-        }),
-        tahun: Joi.number().required().messages({
-          'number.base': 'Tahun harus berupa angka',
-          'any.required': 'Tahun harus diisi'
-        }),
-        bulan: Joi.number().required().messages({
-          'number.base': 'Bulan harus berupa angka',
-          'any.required': 'Bulan harus diisi'
-        }),
-        status_imunisasi: Joi.string().required().messages({
-          'string.empty': 'Status imunisasi harus diisi'
+        alamat: Joi.string().required().messages({
+          'any.required': 'Alamat harus diisi',
+          'string.empty': 'Alamat tidak boleh kosong'
         })
       });
 
-      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi } = req.body
-      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi })
-
+      await schema.validateAsync(req.body)
       next()
     } catch (error) {
       req.flash('error', error.message);
@@ -48,43 +38,107 @@ module.exports = {
     try {
       const schema = Joi.object({
         nama: Joi.string().required().messages({
-          'string.empty': 'Nama harus diisi'
+          'any.required': 'Nama harus diisi',
+          'string.empty': 'Nama tidak boleh kosong'
         }),
-        alamat: Joi.string().required().messages({
-          'string.empty': 'Alamat harus diisi'
+        tanggal_lahir: Joi.date().required().messages({
+          'any.required': 'Tanggal lahir harus diisi',
+          'date.base': 'Format tanggal lahir tidak valid'
         }),
         jenis_kelamin: Joi.string().required().messages({
-          'string.empty': 'Jenis kelamin harus diisi'
+          'any.required': 'Jenis kelamin harus diisi',
+          'string.empty': 'Jenis kelamin tidak boleh kosong'
         }),
-        berat_badan: Joi.number().required().messages({
-          'number.base': 'Berat badan harus berupa angka',
-          'any.required': 'Berat badan harus diisi'
+        nama_ibu: Joi.string().required().messages({
+          'any.required': 'Nama Ibu harus diisi',
+          'string.empty': 'Nama Ibu tidak boleh kosong'
         }),
-        tinggi_badan: Joi.number().required().messages({
-          'number.base': 'Tinggi badan harus berupa angka',
-          'any.required': 'Tinggi badan harus diisi'
-        }),
-        tahun: Joi.number().required().messages({
-          'number.base': 'Tahun harus berupa angka',
-          'any.required': 'Tahun harus diisi'
-        }),
-        bulan: Joi.number().required().messages({
-          'number.base': 'Bulan harus berupa angka',
-          'any.required': 'Bulan harus diisi'
-        }),
-        status_imunisasi: Joi.string().required().messages({
-          'string.empty': 'Status imunisasi harus diisi'
+        alamat: Joi.string().required().messages({
+          'any.required': 'Alamat harus diisi',
+          'string.empty': 'Alamat tidak boleh kosong'
         })
       });
 
-      const { nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi } = req.body
-      await schema.validateAsync({ nama, alamat, jenis_kelamin, berat_badan, tinggi_badan, tahun, bulan, status_imunisasi })
-
+      await schema.validateAsync(req.body)
       next()
     } catch (error) {
       req.flash('error', error.message);
       req.flash('form', req.body);
       res.redirect(`/dasbor/master/balita/${req.params.uuid}`)
+    }
+  },
+  validateStoreImunisasi: async (req, res, next) => {
+    try {
+      const schema = Joi.object({
+        toddlerId: Joi.string().required().messages({
+          'any.required': 'Balita harus diisi',
+          'string.empty': 'Balita tidak boleh kosong'
+        }),
+        nama_imunisasi: Joi.string().required().messages({
+          'any.required': 'Nama Imunisasi harus diisi',
+          'string.empty': 'Nama Imunisasi tidak boleh kosong'
+        }),
+        tahun: Joi.number().required().messages({
+          'any.required': 'Tahun harus diisi',
+          'number.base': 'Tahun harus berupa angka'
+        }),
+        bulan: Joi.number().required().messages({
+          'any.required': 'Bulan harus diisi',
+          'number.base': 'Bulan harus berupa angka'
+        }),
+        berat_badan: Joi.number().required().messages({
+          'any.required': 'Berat badan harus diisi',
+          'number.base': 'Berat badan harus berupa angka'
+        }),
+        tinggi_badan: Joi.number().required().messages({
+          'any.required': 'Tinggi badan harus diisi',
+          'number.base': 'Tinggi badan harus berupa angka'
+        })
+      });
+
+      await schema.validateAsync(req.body)
+      next()
+    } catch (error) {
+      req.flash('error', error.message);
+      req.flash('form', req.body);
+      res.redirect(`/dasbor/master/imunisasi`)
+    }
+  },
+  validateUpdateImunisasi: async (req, res, next) => {
+    try {
+      const schema = Joi.object({
+        toddlerId: Joi.string().required().messages({
+          'any.required': 'Balita harus diisi',
+          'string.empty': 'Balita tidak boleh kosong'
+        }),
+        nama_imunisasi: Joi.string().required().messages({
+          'any.required': 'Nama Imunisasi harus diisi',
+          'string.empty': 'Nama Imunisasi tidak boleh kosong'
+        }),
+        tahun: Joi.number().required().messages({
+          'any.required': 'Tahun harus diisi',
+          'number.base': 'Tahun harus berupa angka'
+        }),
+        bulan: Joi.number().required().messages({
+          'any.required': 'Bulan harus diisi',
+          'number.base': 'Bulan harus berupa angka'
+        }),
+        berat_badan: Joi.number().required().messages({
+          'any.required': 'Berat badan harus diisi',
+          'number.base': 'Berat badan harus berupa angka'
+        }),
+        tinggi_badan: Joi.number().required().messages({
+          'any.required': 'Tinggi badan harus diisi',
+          'number.base': 'Tinggi badan harus berupa angka'
+        })
+      });
+
+      await schema.validateAsync(req.body)
+      next()
+    } catch (error) {
+      req.flash('error', error.message);
+      req.flash('form', req.body);
+      res.redirect(`/dasbor/master/imunisasi/${req.params.uuid}`)
     }
   },
   validateStoreKader: async (req, res, next) => {

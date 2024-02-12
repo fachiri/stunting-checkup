@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
           [Op.like]: `%${keywords}%`,
         },
       },
-      include: db.Checkup
     });
 
     if (!data || data.length === 0) {

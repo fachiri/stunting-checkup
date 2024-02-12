@@ -11,12 +11,10 @@
     <thead>
       <tr>
         <th>Nama</th>
+        <th>Tanggal Lahir</th>
         <th>Jenis Kelamin</th>
-        <th>Berat Badan</th>
-        <th>Tinggi Badan</th>
-        <th>Umur</th>
-        <th>Status Imunisasi</th>
-        <th>Status Checkup</th>
+        <th>Nama Ibu</th>
+        <th>Alamat</th>
       </tr>
     </thead>
     <tbody>
@@ -26,26 +24,16 @@
             <%= e.nama %>
           </td>
           <td>
+            <%= e.tanggal_lahir %>
+          </td>
+          <td>
             <%= e.jenis_kelamin %>
           </td>
           <td>
-            <%= e.berat_badan %>
+            <%= e.nama_ibu %>
           </td>
           <td>
-            <%= e.tinggi_badan %>
-          </td>
-          <td>
-            <%= e.umur %>
-          </td>
-          <td>
-            <span class="badge <%= e.status_imunisasi == 'Lengkap' ? 'bg-success' : 'bg-danger' %>">
-              <%= e.status_imunisasi %>
-            </span>
-          </td>
-          <td>
-            <span class="badge <%= e.status_checkup == 'Sudah Checkup' ? 'bg-success' : 'bg-danger' %>">
-              <%= e.status_checkup %>
-            </span>
+            <%= e.alamat %>
           </td>
         </tr>
         <% }) %>

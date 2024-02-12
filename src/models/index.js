@@ -18,9 +18,11 @@ db.sequelize = sequelize
 db.Checkup = require("./checkup.model.js")(sequelize, Sequelize)
 db.Balita = require("./balita.model.js")(sequelize, Sequelize)
 db.User = require("./user.model.js")(sequelize, Sequelize)
-db.Informasi = require("./informasi.model.js")(sequelize, Sequelize)
+db.Imunisasi = require("./imunisasi.model.js")(sequelize, Sequelize)
 
-db.Balita.hasMany(db.Checkup, { onDelete: 'CASCADE' });
-db.Checkup.belongsTo(db.Balita);
+db.Balita.hasMany(db.Imunisasi, { onDelete: 'CASCADE' });
+db.Imunisasi.belongsTo(db.Balita);
+db.Imunisasi.hasOne(db.Checkup, { onDelete: 'CASCADE' });
+db.Checkup.belongsTo(db.Imunisasi);
 
 module.exports = db

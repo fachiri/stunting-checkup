@@ -18,16 +18,22 @@ router.get('/', async (req, res) => {
     const countMaleStunting = await db.Balita.count({
       where: { jenis_kelamin: 'Laki-laki' },
       include: [{
-        model: db.Checkup,
-        where: { label: 1 }
+        model: db.Imunisasi,
+        include: {
+          model: db.Checkup,
+          where: { label: 1 }
+        }
       }],
     });
 
     const countMaleTidakStunting = await db.Balita.count({
       where: { jenis_kelamin: 'Laki-laki' },
       include: [{
-        model: db.Checkup,
-        where: { label: 0 }
+        model: db.Imunisasi,
+        include: {
+          model: db.Checkup,
+          where: { label: 0 }
+        }
       }],
     });
 
@@ -38,16 +44,22 @@ router.get('/', async (req, res) => {
     const countFemaleStunting = await db.Balita.count({
       where: { jenis_kelamin: 'Perempuan' },
       include: [{
-        model: db.Checkup,
-        where: { label: 1 }
+        model: db.Imunisasi,
+        include: {
+          model: db.Checkup,
+          where: { label: 1 }
+        }
       }],
     });
 
     const countFemaleTidakStunting = await db.Balita.count({
       where: { jenis_kelamin: 'Perempuan' },
       include: [{
-        model: db.Checkup,
-        where: { label: 0 }
+        model: db.Imunisasi,
+        include: {
+          model: db.Checkup,
+          where: { label: 0 }
+        }
       }],
     });
 

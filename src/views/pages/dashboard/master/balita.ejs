@@ -4,9 +4,11 @@
       <div class="card">
         <div class="card-body px-4 py-4-5">
           <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahBalitaModal">
+            <i class="bi bi-plus-square"></i>
             Tambah Data
           </button>
           <a href="/dasbor/master/balita/print/preview" class="btn btn-success mb-3 ms-1">
+            <i class="bi bi-printer"></i>
             Print
           </a>
           <div class="modal fade" id="tambahBalitaModal" tabindex="-1" aria-labelledby="tambahBalitaModalLabel"
@@ -17,7 +19,6 @@
                   <h1 class="modal-title fs-5" id="tambahBalitaModalLabel">Tambah Balita</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <!-- <form method="POST"> -->
                 <div class="modal-body">
                   <div class="mb-3">
                     <label for="nama" class="form-label">Nama Lengkap Ananda</label>
@@ -25,9 +26,9 @@
                       placeholder="Masukkan Nama Lengkap Ananda" value="<%= oldData[0]?.nama %>">
                   </div>
                   <div class="mb-3">
-                    <label for="alamat" class="form-label">Alamat</label>
-                    <textarea class="form-control" name="alamat" id="alamat"
-                      placeholder="Alamat Lengkap Ananda"><%= oldData[0]?.alamat %></textarea>
+                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                    <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir"
+                      placeholder="Masukkan Tanggal Lahir" value="<%= oldData[0]?.tanggal_lahir %>">
                   </div>
                   <div class="mb-3">
                     <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
@@ -39,68 +40,21 @@
                         >Perempuan</option>
                     </select>
                   </div>
-                  <div class="row mb-3">
-                    <div class="col-4">
-                      <label class="form-label">Umur</label>
-                      <div class="row">
-                        <div class="col-6">
-                          <select class="form-select" name="tahun" id="tahun">
-                            <option value="" hidden>Tahun..</option>
-                            <option>0</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </select>
-                        </div>
-                        <div class="col-6">
-                          <select class="form-select" name="bulan" id="bulan">
-                            <option value="" hidden>Bulan..</option>
-                            <option>0</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <label for="berat_badan" class="form-label">Berat Badan (BB)</label>
-                      <input type="number" step="0.1" class="form-control" name="berat_badan" id="berat_badan"
-                        placeholder="kg (1 desimal)" value="<%= oldData[0]?.berat_badan %>">
-                    </div>
-                    <div class="col-4">
-                      <label for="tinggi_badan" class="form-label">Tinggi Badan (TB)</label>
-                      <input type="number" step="0.1" class="form-control" name="tinggi_badan" id="tinggi_badan"
-                        placeholder="cm (1 desimal)" value="<%= oldData[0]?.tinggi_badan %>">
-                    </div>
+                  <div class="mb-3">
+                    <label for="nama_ibu" class="form-label">Nama Ibu</label>
+                    <input type="text" class="form-control" name="nama_ibu" id="nama_ibu"
+                      placeholder="Masukkan Nama Ibu" value="<%= oldData[0]?.nama_ibu %>">
                   </div>
                   <div class="mb-3">
-                    <label for="status_imunisasi" class="form-label">Status Imunisasi</label>
-                    <select class="form-select" name="status_imunisasi" id="status_imunisasi"
-                      aria-label="Status Imunisasi">
-                      <option value="" hidden>-Pilih-</option>
-                      <option value="Lengkap" <%=oldData[0]?.status_imunisasi=='Lengkap' ? 'selected' : null %>>Lengkap
-                      </option>
-                      <option value="Belum lengkap" <%=oldData[0]?.status_imunisasi=='Belum lengkap' ? 'selected' : null
-                        %>>Belum lengkap</option>
-                    </select>
+                    <label for="alamat" class="form-label">Alamat</label>
+                    <textarea class="form-control" name="alamat" id="alamat"
+                      placeholder="Masukkan Alamat Lengkap"><%= oldData[0]?.alamat %></textarea>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <!-- </form> -->
               </form>
             </div>
           </div>
@@ -108,12 +62,8 @@
             <thead>
               <tr>
                 <th>Nama</th>
+                <th>Tanggal Lahir</th>
                 <th>Jenis Kelamin</th>
-                <th>Berat Badan</th>
-                <th>Tinggi Badan</th>
-                <th>Umur</th>
-                <th>Status Imunisasi</th>
-                <th>Status Checkup</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -124,33 +74,15 @@
                     <%= e.nama %>
                   </td>
                   <td>
+                    <%= e.tanggal_lahir %>
+                  </td>
+                  <td>
                     <%= e.jenis_kelamin %>
-                  </td>
-                  <td>
-                    <%= e.berat_badan %> kg
-                  </td>
-                  <td>
-                    <%= e.tinggi_badan %> cm
-                  </td>
-                  <td>
-                    <%= e.umur %> Bulan
-                  </td>
-                  <td>
-                    <span class="badge <%= e.status_imunisasi == 'Lengkap' ? 'bg-success' : 'bg-danger' %>">
-                      <%= e.status_imunisasi %>
-                    </span>
-                  </td>
-                  <td>
-                    <span class="badge <%= e.status_checkup == 'Sudah Checkup' ? 'bg-success' : 'bg-danger' %>">
-                      <%= e.status_checkup %>
-                    </span>
                   </td>
                   <td>
                     <a href="/dasbor/master/balita/<%= e.uuid %>" class="badge bg-primary">
                       <i class="bi bi-list-ul"></i>
-                    </a>
-                    <a href="/dasbor/master/balita/<%= e.uuid %>/delete" class="badge bg-danger">
-                      <i class="bi bi-trash-fill"></i>
+                      Detail
                     </a>
                   </td>
                 </tr>
