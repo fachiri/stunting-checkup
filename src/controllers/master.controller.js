@@ -107,7 +107,9 @@ router.get('/balita/:uuid/delete', async (req, res) => {
 
 router.get('/imunisasi', async (req, res) => {
   let data = {}
-  data.imunisasi = await db.Imunisasi.findAll();
+  data.imunisasi = await db.Imunisasi.findAll({
+    include: db.Balita
+  });
   data.balita = await db.Balita.findAll();
 
   res.render('./pages/dashboard/master/imunisasi', {

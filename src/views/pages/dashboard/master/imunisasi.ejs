@@ -90,6 +90,7 @@
           <table class="table table-striped" id="tabel-balita">
             <thead>
               <tr>
+                <th>Nama</th>
                 <th>Nama Imunisasi</th>
                 <th>Umur</th>
                 <th>Berat Badan</th>
@@ -100,6 +101,9 @@
             <tbody>
               <% data.imunisasi.forEach(e => { %>
                 <tr>
+                  <td>
+                    <%= e.toddler.nama %>
+                  </td>
                   <td>
                     <%= e.nama_imunisasi %>
                   </td>
