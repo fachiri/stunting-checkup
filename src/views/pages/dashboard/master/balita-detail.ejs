@@ -13,7 +13,8 @@
                 <i class="bi bi-pencil-square"></i>
                 Edit
               </button>
-              <button type="button" class="btn btn-danger mb-4" data-bs-toggle="modal" data-bs-target="#deleteBalitaModal">
+              <button type="button" class="btn btn-danger mb-4" data-bs-toggle="modal"
+                data-bs-target="#deleteBalitaModal">
                 <i class="bi bi-trash"></i>
                 Hapus
               </button>
@@ -23,7 +24,8 @@
           <div class="modal fade" id="editBalitaModal" tabindex="-1" aria-labelledby="editBalitaModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
-              <form action="<%= baseUrl %>/dasbor/master/balita/<%= data.balita.uuid %>/update" method="POST" class="modal-content">
+              <form action="<%= baseUrl %>/dasbor/master/balita/<%= data.balita.uuid %>/update" method="POST"
+                class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title fs-5" id="editBalitaModalLabel">Edit Balita</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -35,18 +37,22 @@
                   </div>
                   <div class="mb-3">
                     <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                    <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="<%= data.balita.tanggal_lahir %>">
+                    <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir"
+                      value="<%= data.balita.tanggal_lahir %>">
                   </div>
                   <div class="mb-3">
                     <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                     <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" aria-label="Jenis Kelamin">
-                      <option value="Laki-laki" <%= data.balita.jenis_kelamin == 'Laki-laki' ? 'selected' : null %>>Laki-laki</option>
-                      <option value="Perempuan" <%= data.balita.jenis_kelamin == 'Perempuan' ? 'selected' : null %>>Perempuan</option>
+                      <option value="Laki-laki" <%=data.balita.jenis_kelamin=='Laki-laki' ? 'selected' : null %>
+                        >Laki-laki</option>
+                      <option value="Perempuan" <%=data.balita.jenis_kelamin=='Perempuan' ? 'selected' : null %>
+                        >Perempuan</option>
                     </select>
                   </div>
                   <div class="mb-3">
                     <label for="nama_ibu" class="form-label">Nama Ibu</label>
-                    <input type="text" class="form-control" name="nama_ibu" id="nama_ibu" value="<%= data.balita.nama_ibu %>">
+                    <input type="text" class="form-control" name="nama_ibu" id="nama_ibu"
+                      value="<%= data.balita.nama_ibu %>">
                   </div>
                   <div class="mb-3">
                     <label for="alamat" class="form-label">Alamat</label>
@@ -68,61 +74,94 @@
                   <h1 class="modal-title fs-5" id="deleteBalitaModalLabel">Konnfirmasi</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                  <div class="modal-body">
-                    <b>Peringatan!</b> Proses ini dapat menghapus data <b>Imunisasi</b> dan <b>Cek Stunting</b> yang terkait dengan <b><%= data.balita.nama %></b>. Data yang telah dihapus, tidak dapat dikembalikan.
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <a href="/dasbor/master/balita/<%= data.balita.uuid %>/delete" class="btn btn-danger">
-                      Ya, Hapus
-                    </a>
-                  </div>
+                <div class="modal-body">
+                  <b>Peringatan!</b> Proses ini dapat menghapus data <b>Imunisasi</b> dan <b>Cek Stunting</b> yang
+                  terkait dengan <b>
+                    <%= data.balita.nama %>
+                  </b>. Data yang telah dihapus, tidak dapat dikembalikan.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <a href="/dasbor/master/balita/<%= data.balita.uuid %>/delete" class="btn btn-danger">
+                    Ya, Hapus
+                  </a>
+                </div>
               </div>
             </div>
           </div>
           <!-- modal end -->
           <div class="row mb-3 pb-3 border-bottom border-2">
             <div class="col-4 fw-bold">Nama</div>
-            <div class="col-8"><%= data.balita.nama %></div>
+            <div class="col-8">
+              <%= data.balita.nama %>
+            </div>
           </div>
           <div class="row mb-3 pb-3 border-bottom border-2">
             <div class="col-4 fw-bold">Tanggal Lahir</div>
-            <div class="col-8"><%= data.balita.tanggal_lahir %></div>
+            <div class="col-8">
+              <%= data.balita.tanggal_lahir %>
+            </div>
           </div>
           <div class="row mb-3 pb-3 border-bottom border-2">
             <div class="col-4 fw-bold">Jenis Kelamin</div>
-            <div class="col-8"><%= data.balita.jenis_kelamin %></div>
+            <div class="col-8">
+              <%= data.balita.jenis_kelamin %>
+            </div>
           </div>
           <div class="row mb-3 pb-3 border-bottom border-2">
             <div class="col-4 fw-bold">Nama Ibu</div>
-            <div class="col-8"><%= data.balita.nama_ibu %></div>
+            <div class="col-8">
+              <%= data.balita.nama_ibu %>
+            </div>
           </div>
           <div class="row mb-3 pb-3 border-bottom border-2">
             <div class="col-4 fw-bold">Alamat</div>
-            <div class="col-8"><%= data.balita.alamat %></div>
-          </div>
-          <!-- <div class="row mb-3 pb-3 border-bottom border-2">
-            <div class="col-4 fw-bold">Berat Badan</div>
-            <div class="col-8"><%= data.balita.berat_badan %></div>
+            <div class="col-8">
+              <%= data.balita.alamat %>
+            </div>
           </div>
           <div class="row mb-3 pb-3 border-bottom border-2">
-            <div class="col-4 fw-bold">Tinggi Badan</div>
-            <div class="col-8"><%= data.balita.tinggi_badan %></div>
+            <div class="col-4 fw-bold">Perkembangan</div>
+            <div class="col-8">
+              <div id="line-chart-perkembangan-anak"></div>
+            </div>
           </div>
-          <div class="row mb-3 pb-3 border-bottom border-2">
-            <div class="col-4 fw-bold">Umur</div>
-            <div class="col-8"><%= data.balita.umur %></div>
-          </div>
-          <div class="row mb-3 pb-3">
-            <div class="col-4 fw-bold">Status Imunisasi</div>
-            <div class="col-8"><%= data.balita.status_imunisasi %></div>
-          </div>
-          <div class="row mb-3 pb-3">
-            <div class="col-4 fw-bold">Status Checkup</div>
-            <div class="col-8"><%= data.balita.status_checkup %></div>
-          </div> -->
         </div>
       </div>
     </div>
   </section>
 </div>
+<script src="/js/extensions/apexcharts.min.js"></script>
+<script>
+  const immunizations = JSON.parse('<%- JSON.stringify(data.immunizations) %>');
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  var lineChartPerkembanganAnakOptions = {
+    chart: {
+      type: "line",
+    },
+    series: [
+      {
+        name: "Umur",
+        data: immunizations.map(item => item.umur),
+      },
+      {
+        name: "Berat Badan",
+        data: immunizations.map(item => item.berat_badan),
+      },
+      {
+        name: "Tinggi Badan",
+        data: immunizations.map(item => item.tinggi_badan),
+      },
+    ],
+    xaxis: {
+      categories: immunizations.map(item => new Intl.DateTimeFormat('id-ID', options).format(new Date(item.createdAt))),
+    },
+  }
+  var lineChartPerkembanganAnak = new ApexCharts(document.querySelector("#line-chart-perkembangan-anak"), lineChartPerkembanganAnakOptions)
+  lineChartPerkembanganAnak.render()
+</script>

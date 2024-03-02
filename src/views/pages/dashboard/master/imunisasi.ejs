@@ -3,6 +3,77 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
+          <form action="" method="GET">
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label class="form-label">Imunisasi</label>
+                <select class="form-select" name="nama_imunisasi">
+                  <option value="">Semua</option>
+                  <option value="Hepatitis B" <%=data.queryParams?.nama_imunisasi=='Hepatitis B' ? 'selected' : '' %>
+                    >Hepatitis B</option>
+                  <option value="BCG" <%=data.queryParams?.nama_imunisasi=='BCG' ? 'selected' : '' %> >BCG</option>
+                  <option value="DPT/DTP" <%=data.queryParams?.nama_imunisasi=='DPT/DTP' ? 'selected' : '' %> >DPT/DTP
+                  </option>
+                  <option value="HiB" <%=data.queryParams?.nama_imunisasi=='HiB' ? 'selected' : '' %> >HiB</option>
+                  <option value="Polio" <%=data.queryParams?.nama_imunisasi=='Polio' ? 'selected' : '' %> >Polio
+                  </option>
+                  <option value="Campak" <%=data.queryParams?.nama_imunisasi=='Campak' ? 'selected' : '' %> >Campak
+                  </option>
+                  <option value="MMR" <%=data.queryParams?.nama_imunisasi=='MMR' ? 'selected' : '' %> >MMR</option>
+                  <option value="Rotavirus" <%=data.queryParams?.nama_imunisasi=='Rotavirus' ? 'selected' : '' %>
+                    >Rotavirus</option>
+                  <option value="PCV (Pneumokokus)" <%=data.queryParams?.nama_imunisasi=='PCV (Pneumokokus)'
+                    ? 'selected' : '' %> >PCV (Pneumokokus)</option>
+                  <option value="Influenza" <%=data.queryParams?.nama_imunisasi=='Influenza' ? 'selected' : '' %>
+                    >Influenza</option>
+                  <option value="Japanese Ensefalitis" <%=data.queryParams?.nama_imunisasi=='Japanese Ensefalitis'
+                    ? 'selected' : '' %> >Japanese Ensefalitis</option>
+                </select>
+              </div>
+              <div class="col-3 mb-3">
+                <label class="form-label">Umur (Tahun)</label>
+                <select class="form-select" name="year" id="year">
+                  <option value="">Semua</option>
+                  <option <%=data.queryParams?.year==0 ? 'selected' : '' %> >0</option>
+                  <option <%=data.queryParams?.year==1 ? 'selected' : '' %> >1</option>
+                  <option <%=data.queryParams?.year==2 ? 'selected' : '' %> >2</option>
+                  <option <%=data.queryParams?.year==3 ? 'selected' : '' %> >3</option>
+                  <option <%=data.queryParams?.year==4 ? 'selected' : '' %> >4</option>
+                  <option <%=data.queryParams?.year==5 ? 'selected' : '' %> >5</option>
+                </select>
+              </div>
+              <div class="col-3 mb-3">
+                <label class="form-label">Umur (Bulan)</label>
+                <select class="form-select" name="month" id="month">
+                  <option value="">Semua</option>
+                  <option <%=data.queryParams?.month==0 ? 'selected' : '' %> >0</option>
+                  <option <%=data.queryParams?.month==1 ? 'selected' : '' %> >1</option>
+                  <option <%=data.queryParams?.month==2 ? 'selected' : '' %> >2</option>
+                  <option <%=data.queryParams?.month==3 ? 'selected' : '' %> >3</option>
+                  <option <%=data.queryParams?.month==4 ? 'selected' : '' %> >4</option>
+                  <option <%=data.queryParams?.month==5 ? 'selected' : '' %> >5</option>
+                  <option <%=data.queryParams?.month==6 ? 'selected' : '' %> >6</option>
+                  <option <%=data.queryParams?.month==7 ? 'selected' : '' %> >7</option>
+                  <option <%=data.queryParams?.month==8 ? 'selected' : '' %> >8</option>
+                  <option <%=data.queryParams?.month==9 ? 'selected' : '' %> >9</option>
+                  <option <%=data.queryParams?.month==10 ? 'selected' : '' %> >10</option>
+                  <option <%=data.queryParams?.month==11 ? 'selected' : '' %> >11</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="bi bi-filter"></i>
+                  Filter
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body px-4 py-4-5">
           <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="bi bi-plus-square"></i>
             Tambah Data
@@ -24,15 +95,37 @@
                     <div class="form-group">
                       <label for="toddlerId">Pilih balita</label>
                       <select class="form-select" name="toddlerId" id="toddlerId">
-                      <option value="" hidden>-Pilih-</option>
-                        <% data.balita.forEach(e => { %>
-                          <option value="<%= e.id %>" <%= oldData[0]?.toddlerId == e.id ? 'selected' : '' %> ><%= e.nama %></option>
-                        <% }); %>
+                        <option value="" hidden>-Pilih-</option>
+                        <% data.balita.forEach(e=> { %>
+                          <option value="<%= e.id %>" <%=oldData[0]?.toddlerId==e.id ? 'selected' : '' %> ><%= e.nama %>
+                          </option>
+                          <% }); %>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="nama_imunisasi">Nama Imunisasi</label>
-                      <input type="text" name="nama_imunisasi" placeholder="Masukan Nama Imunisasi" class="form-control" value="<%= oldData[0]?.nama_imunisasi %>">
+                      <label for="nama_imunisasi">Imunisasi</label>
+                      <select class="form-select" name="nama_imunisasi" id="nama_imunisasi">
+                        <option value="" hidden>Pilih Imunisasi</option>
+                        <option value="Hepatitis B" <%=oldData[0]?.nama_imunisasi=='Hepatitis B' ? 'selected' : '' %>
+                          >Hepatitis B</option>
+                        <option value="BCG" <%=oldData[0]?.nama_imunisasi=='BCG' ? 'selected' : '' %> >BCG</option>
+                        <option value="DPT/DTP" <%=oldData[0]?.nama_imunisasi=='DPT/DTP' ? 'selected' : '' %> >DPT/DTP
+                        </option>
+                        <option value="HiB" <%=oldData[0]?.nama_imunisasi=='HiB' ? 'selected' : '' %> >HiB</option>
+                        <option value="Polio" <%=oldData[0]?.nama_imunisasi=='Polio' ? 'selected' : '' %> >Polio
+                        </option>
+                        <option value="Campak" <%=oldData[0]?.nama_imunisasi=='Campak' ? 'selected' : '' %> >Campak
+                        </option>
+                        <option value="MMR" <%=oldData[0]?.nama_imunisasi=='MMR' ? 'selected' : '' %> >MMR</option>
+                        <option value="Rotavirus" <%=oldData[0]?.nama_imunisasi=='Rotavirus' ? 'selected' : '' %>
+                          >Rotavirus</option>
+                        <option value="PCV (Pneumokokus)" <%=oldData[0]?.nama_imunisasi=='PCV (Pneumokokus)'
+                          ? 'selected' : '' %> >PCV (Pneumokokus)</option>
+                        <option value="Influenza" <%=oldData[0]?.nama_imunisasi=='Influenza' ? 'selected' : '' %>
+                          >Influenza</option>
+                        <option value="Japanese Ensefalitis" <%=oldData[0]?.nama_imunisasi=='Japanese Ensefalitis'
+                          ? 'selected' : '' %> >Japanese Ensefalitis</option>
+                      </select>
                     </div>
                     <div class="row mb-3">
                       <div class="col-4">
@@ -99,7 +192,7 @@
               </tr>
             </thead>
             <tbody>
-              <% data.imunisasi.forEach(e => { %>
+              <% data.imunisasi.forEach(e=> { %>
                 <tr>
                   <td>
                     <%= e.toddler.nama %>

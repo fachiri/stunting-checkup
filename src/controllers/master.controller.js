@@ -3,6 +3,19 @@ const db = require('../models')
 const express = require('express')
 const bcrypt = require('bcryptjs');
 const algorithmUtil = require('../utils/algorithm.util');
+const excel = require('exceljs');
+const multer = require('multer');
+const storage = multer.memoryStorage();
+
+const fileFilter = (req, file, cb) => {
+  // Izinkan hanya file dengan ekstensi xlsx
+  if (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+    cb(null, true);
+  } else {
+    cb(new Error('Format file tidak didukung!'), false);
+  }
+};
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 const router = express.Router()
 
@@ -26,11 +39,20 @@ router.get('/balita/:uuid', async (req, res) => {
   const dataBalita = await db.Balita.findOne({
     where: {
       uuid: req.params.uuid
+    },
+    include: {
+      model: db.Imunisasi,
+      raw: true
     }
   });
 
+  const immunizations = dataBalita.immunizations.map(immunization => immunization.get({ plain: true }));
+
+  console.log(immunizations)
+
   const data = {
-    balita: dataBalita
+    balita: dataBalita,
+    immunizations: immunizations
   }
 
   res.render('./pages/dashboard/master/balita-detail', {
@@ -72,7 +94,7 @@ router.post('/balita/:uuid/update', validateUpdateBalita, async (req, res) => {
     if (!data) {
       throw new Error('Data tidak ditemukan')
     }
-    
+
     data.update(req.body)
 
     req.flash('success', 'Data balita berhasil diedit.');
@@ -104,12 +126,122 @@ router.get('/balita/:uuid/delete', async (req, res) => {
     res.redirect(`/dasbor/master/balita`)
   }
 })
+router.get('/balita/sync/export', async (req, res) => {
+  try {
+    const dataBalita = await db.Balita.findAll();
+
+    const workbook = new excel.Workbook();
+    const worksheet = workbook.addWorksheet('Balita');
+
+    worksheet.columns = [
+      { header: 'Nama', key: 'nama', width: 20 },
+      { header: 'Alamat', key: 'alamat', width: 20 },
+      { header: 'Jenis Kelamin', key: 'jenis_kelamin', width: 15 },
+      { header: 'Tanggal Lahir', key: 'tanggal_lahir', width: 15 },
+      { header: 'Nama Ibu', key: 'nama_ibu', width: 20 },
+    ];
+
+    dataBalita.forEach(balita => {
+      const { nama, alamat, jenis_kelamin, tanggal_lahir, nama_ibu } = balita;
+
+      // Pastikan setiap atribut memiliki nilai sebelum menambahkan baris
+      if (nama && alamat && jenis_kelamin && tanggal_lahir && nama_ibu) {
+        worksheet.addRow({
+          nama,
+          alamat,
+          jenis_kelamin,
+          tanggal_lahir,
+          nama_ibu,
+        });
+      }
+    });
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="data_balita.xlsx"');
+
+    await workbook.xlsx.write(res);
+
+    res.end();
+  } catch (error) {
+    console.error('Error exporting data:', error);
+    res.status(500).send('Error exporting data');
+  }
+});
+router.post('/balita/sync/import', upload.single('file'), async (req, res) => {
+  try {
+    const workbook = new excel.Workbook();
+    const fileBuffer = req.file.buffer;
+    await workbook.xlsx.load(fileBuffer);
+
+    // Ambil worksheet pertama dari workbook
+    const worksheet = workbook.worksheets[0];
+
+    // Periksa header
+    const headerRow = worksheet.getRow(1); // Ambil baris pertama (header)
+    const headers = headerRow.values;
+    const expectedHeaders = [null, 'Nama', 'Alamat', 'Jenis Kelamin', 'Tanggal Lahir', 'Nama Ibu'];
+
+    // Periksa apakah header sesuai
+    const headerIsValid = headers.every((header, index) => header === expectedHeaders[index]);
+
+    if (!headerIsValid) {
+      throw new Error('Format file Excel tidak sesuai. Pastikan header kolom sesuai dengan format yang diharapkan.');
+    }
+
+    // Iterasi melalui baris-baris worksheet
+    worksheet.eachRow({ includeEmpty: false }, async (row, rowNumber) => {
+      if (rowNumber > 1) { // Lewati baris header (jika ada)
+        const [_, nama, alamat, jenis_kelamin, tanggal_lahir, nama_ibu] = row.values;
+
+        // Simpan data ke database
+        await db.Balita.create({
+          nama,
+          alamat,
+          jenis_kelamin,
+          tanggal_lahir,
+          nama_ibu
+        });
+      }
+    });
+
+    req.flash('success', 'Data balita berhasil disimpan.');
+    res.redirect(`/dasbor/master/balita`)
+  } catch (error) {
+    req.flash('error', error.message);
+    res.redirect(`/dasbor/master/balita`)
+  }
+});
 
 router.get('/imunisasi', async (req, res) => {
-  let data = {}
+  let data = {};
+  let filterOptions = {};
+  data.queryParams = {}
+
+  // Mengambil nama imunisasi dari query params
+  const namaImunisasi = req.query.nama_imunisasi;
+  if (namaImunisasi) {
+    filterOptions.nama_imunisasi = namaImunisasi;
+    data.queryParams.nama_imunisasi = namaImunisasi;
+  }
+
+  // Mengambil umur dari query params
+  let umur = null;
+  if (req.query.year && req.query.month) {
+    umur = +req.query.year * 12 + +req.query.month;
+    data.queryParams.year = req.query.year;
+    data.queryParams.month = req.query.month;
+  }
+
+  if (umur) {
+    filterOptions.umur = umur;
+  }
+
+  // Mengambil data imunisasi dengan filter yang diberikan
   data.imunisasi = await db.Imunisasi.findAll({
-    include: db.Balita
+    include: db.Balita,
+    where: filterOptions
   });
+
   data.balita = await db.Balita.findAll();
 
   res.render('./pages/dashboard/master/imunisasi', {
@@ -123,13 +255,13 @@ router.get('/imunisasi', async (req, res) => {
 })
 router.post('/imunisasi', validateStoreImunisasi, async (req, res) => {
   try {
-    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan  } = req.body
+    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan } = req.body
 
     await db.Imunisasi.create({
       toddlerId,
       nama_imunisasi,
       umur: (+tahun * 12) + +bulan,
-      berat_badan, 
+      berat_badan,
       tinggi_badan,
     })
 
@@ -142,7 +274,7 @@ router.post('/imunisasi', validateStoreImunisasi, async (req, res) => {
 })
 router.get('/imunisasi/:uuid', async (req, res) => {
   let data = {}
-  data.imunisasi = await db.Imunisasi.findOne({ 
+  data.imunisasi = await db.Imunisasi.findOne({
     where: { uuid: req.params.uuid },
     include: [db.Balita, db.Checkup]
   });
@@ -169,13 +301,13 @@ router.get('/imunisasi/:uuid/delete', async (req, res) => {
 })
 router.post('/imunisasi/:uuid/update', validateUpdateImunisasi, async (req, res) => {
   try {
-    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan  } = req.body
+    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan } = req.body
 
     await db.Imunisasi.update({
       toddlerId,
       nama_imunisasi,
       umur: (+tahun * 12) + +bulan,
-      berat_badan, 
+      berat_badan,
       tinggi_badan,
     }, { where: { uuid: req.params.uuid } })
 
