@@ -85,7 +85,28 @@
                   </div>
                   <div class="mb-3">
                     <label for="nama_imunisasi" class="form-label">Nama Imunisasi</label>
-                    <input type="text" class="form-control" name="nama_imunisasi" id="nama_imunisasi" value="<%= data.imunisasi.nama_imunisasi %>">
+                    <select class="form-select" name="nama_imunisasi" id="nama_imunisasi">
+                      <option value="" hidden>Pilih Imunisasi</option>
+                      <option value="Hepatitis B" <%=data.imunisasi?.nama_imunisasi=='Hepatitis B' ? 'selected' : '' %>
+                        >Hepatitis B</option>
+                      <option value="BCG" <%=data.imunisasi?.nama_imunisasi=='BCG' ? 'selected' : '' %> >BCG</option>
+                      <option value="DPT/DTP" <%=data.imunisasi?.nama_imunisasi=='DPT/DTP' ? 'selected' : '' %> >DPT/DTP
+                      </option>
+                      <option value="HiB" <%=data.imunisasi?.nama_imunisasi=='HiB' ? 'selected' : '' %> >HiB</option>
+                      <option value="Polio" <%=data.imunisasi?.nama_imunisasi=='Polio' ? 'selected' : '' %> >Polio
+                      </option>
+                      <option value="Campak" <%=data.imunisasi?.nama_imunisasi=='Campak' ? 'selected' : '' %> >Campak
+                      </option>
+                      <option value="MMR" <%=data.imunisasi?.nama_imunisasi=='MMR' ? 'selected' : '' %> >MMR</option>
+                      <option value="Rotavirus" <%=data.imunisasi?.nama_imunisasi=='Rotavirus' ? 'selected' : '' %>
+                        >Rotavirus</option>
+                      <option value="PCV (Pneumokokus)" <%=data.imunisasi?.nama_imunisasi=='PCV (Pneumokokus)'
+                        ? 'selected' : '' %> >PCV (Pneumokokus)</option>
+                      <option value="Influenza" <%=data.imunisasi?.nama_imunisasi=='Influenza' ? 'selected' : '' %>
+                        >Influenza</option>
+                      <option value="Japanese Ensefalitis" <%=data.imunisasi?.nama_imunisasi=='Japanese Ensefalitis'
+                        ? 'selected' : '' %> >Japanese Ensefalitis</option>
+                    </select>
                   </div>
                   <div class="row mb-3">
                     <div class="col-4">
