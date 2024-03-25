@@ -127,6 +127,10 @@
                           ? 'selected' : '' %> >Japanese Ensefalitis</option>
                       </select>
                     </div>
+                    <div class="form-group">
+                      <label for="tanggal">Tanggal Imunisasi</label>
+                      <input type="date" class="form-control" name="tanggal" id="tanggal" value="<%= oldData[0]?.tanggal %>" />
+                    </div>
                     <div class="row mb-3">
                       <div class="col-4">
                         <label class="form-label">Umur</label>

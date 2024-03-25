@@ -21,6 +21,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER(3),
             allowNull: false,
         },
+        tanggal: {
+            type: Sequelize.DATE(),
+            allowNull: true,
+        },
     })
 
     return Imunisasi;

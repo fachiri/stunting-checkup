@@ -42,8 +42,14 @@ router.get('/balita/:uuid', async (req, res) => {
     },
     include: {
       model: db.Imunisasi,
-      raw: true
-    }
+    },
+    order: [
+      [
+        db.Imunisasi,
+        'tanggal',
+        'ASC'
+      ]
+    ]
   });
 
   const immunizations = dataBalita.immunizations.map(immunization => immunization.get({ plain: true }));
@@ -255,7 +261,7 @@ router.get('/imunisasi', async (req, res) => {
 })
 router.post('/imunisasi', validateStoreImunisasi, async (req, res) => {
   try {
-    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan } = req.body
+    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan, tanggal } = req.body
 
     await db.Imunisasi.create({
       toddlerId,
@@ -263,6 +269,7 @@ router.post('/imunisasi', validateStoreImunisasi, async (req, res) => {
       umur: (+tahun * 12) + +bulan,
       berat_badan,
       tinggi_badan,
+      tanggal,
     })
 
     req.flash('success', 'Data berhasil disimpan.');
@@ -301,7 +308,7 @@ router.get('/imunisasi/:uuid/delete', async (req, res) => {
 })
 router.post('/imunisasi/:uuid/update', validateUpdateImunisasi, async (req, res) => {
   try {
-    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan } = req.body
+    const { toddlerId, nama_imunisasi, tahun, bulan, berat_badan, tinggi_badan, tanggal } = req.body
 
     await db.Imunisasi.update({
       toddlerId,
@@ -309,6 +316,7 @@ router.post('/imunisasi/:uuid/update', validateUpdateImunisasi, async (req, res)
       umur: (+tahun * 12) + +bulan,
       berat_badan,
       tinggi_badan,
+      tanggal
     }, { where: { uuid: req.params.uuid } })
 
     req.flash('success', 'Data berhasil diedit.');

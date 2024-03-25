@@ -93,6 +93,10 @@ module.exports = {
         tinggi_badan: Joi.number().required().messages({
           'any.required': 'Tinggi badan harus diisi',
           'number.base': 'Tinggi badan harus berupa angka'
+        }),
+        tanggal: Joi.date().required().messages({
+          'any.required': 'Tanggal harus diisi',
+          'date.base': 'Tanggal tidak valid'
         })
       });
 
@@ -130,6 +134,10 @@ module.exports = {
         tinggi_badan: Joi.number().required().messages({
           'any.required': 'Tinggi badan harus diisi',
           'number.base': 'Tinggi badan harus berupa angka'
+        }),
+        tanggal: Joi.date().required().messages({
+          'any.required': 'Tanggal harus diisi',
+          'date.base': 'Tanggal tidak valid'
         })
       });
 

@@ -169,7 +169,7 @@
       },
     ],
     xaxis: {
-      categories: immunizations.map(item => new Intl.DateTimeFormat('id-ID', options).format(new Date(item.createdAt))),
+      categories: immunizations.map(item => new Intl.DateTimeFormat('id-ID', options).format(new Date(item.tanggal))),
     },
   }
   var lineChartPerkembanganAnak = new ApexCharts(document.querySelector("#line-chart-perkembangan-anak"), lineChartPerkembanganAnakOptions)
