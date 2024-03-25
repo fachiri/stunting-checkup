@@ -110,7 +110,7 @@
                   </div>
                   <div class="form-group">
                     <label for="tanggal">Tanggal Imunisasi</label>
-                    <input type="date" class="form-control" name="tanggal" id="tanggal" value="<%= data.imunisasi?.tanggal %>" />
+                    <input type="date" class="form-control" name="tanggal" id="tanggal" value="<%= data.imunisasi.tanggal ? data.imunisasi.tanggal.toISOString().substr(0, 10) : '' %>" />
                   </div>
                   <div class="row mb-3">
                     <div class="col-4">
@@ -198,7 +198,11 @@
           </div>
           <div class="row mb-3 pb-3 border-bottom border-2">
             <div class="col-4 fw-bold">Tanggal Imunisasi</div>
-            <div class="col-8"><%= data.imunisasi.tanggal ?? '-' %></div>
+            <div class="col-8"><%= new Intl.DateTimeFormat('id-ID', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            }).format(new Date(data.imunisasi.tanggal)) %></div>
           </div>
           <div class="row mb-3 pb-3 border-bottom border-2">
             <div class="col-4 fw-bold">Umur</div>
