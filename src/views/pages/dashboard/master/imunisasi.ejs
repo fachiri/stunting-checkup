@@ -1,6 +1,6 @@
 <div class="page-content">
   <section class="row">
-    <div class="col-12">
+    <!-- <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
           <form action="" method="GET">
@@ -70,7 +70,7 @@
           </form>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="col-12">
       <div class="card">
         <div class="card-body px-4 py-4-5">
@@ -188,33 +188,17 @@
             <thead>
               <tr>
                 <th>Nama</th>
-                <th>Nama Imunisasi</th>
-                <th>Umur</th>
-                <th>Berat Badan</th>
-                <th>Tinggi Badan</th>
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
-              <% data.imunisasi.forEach(e=> { %>
+              <% data.balita.forEach(e=> { %>
                 <tr>
                   <td>
-                    <%= e.toddler.nama %>
-                  </td>
-                  <td>
-                    <%= e.nama_imunisasi %>
-                  </td>
-                  <td>
-                    <%= Math.floor(+e.umur / 12) %> tahun <%= +e.umur % 12 %> bulan
-                  </td>
-                  <td>
-                    <%= e.berat_badan %> kg
-                  </td>
-                  <td>
-                    <%= e.tinggi_badan %> cm
+                    <%= e.nama %>
                   </td>
                   <td style="white-space: nowrap;">
-                    <a href="/dasbor/master/imunisasi/<%= e.uuid %>" class="badge bg-primary">
+                    <a href="/dasbor/master/balita/<%= e.uuid %>" class="badge bg-primary">
                       <i class="bi bi-list-ul"></i>
                       Detail
                     </a>
